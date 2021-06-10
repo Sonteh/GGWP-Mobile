@@ -3,7 +3,7 @@
     <string name="starting_screen">Hello from Starting Screen</string>
     <string name="searching_screen">Hello from Searching Screen</string>
     <string name="start">START</string>
-    <string name="summoner_name">Summoner name</string>
+    <string name="summonerName">Summoner name</string>
     <string name="eune">EUNE</string>
     <string name="button">EUNE</string>
     <string name="text">EUNE</string>

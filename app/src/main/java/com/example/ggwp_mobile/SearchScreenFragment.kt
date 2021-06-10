@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_search_screen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -18,7 +20,7 @@ import java.net.URL
 
 class SearchScreenFragment : Fragment() {
 
-    //place to change api key
+    //place for changing api key
     private val key: String = ""
 
     override fun onCreateView(
@@ -44,22 +46,31 @@ class SearchScreenFragment : Fragment() {
         return layout
     }
 
-    //this function sets UI textView (api request: summoner by name)
+    //this function sets UI textView
     private fun setNewText(input: String){
         textView.text = input
     }
 
-    //this function sets UI textView2 (api request: mastery by summonerId)
+    //this function sets UI textView2
     private fun setNewText2(input: String){
         textView2.text = input
     }
 
+    //this function sets UI imageView
+    private fun setNewImage(input: String){
+        logThread("setNewImage")
+        //using library Picasso: https://github.com/square/picasso
+        //for some reason it can be used on Main thread
+        Picasso.get().load("https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon$input.png").into(imageView)
+    }
+
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(input: String, input2: String){ //suspend marks this function as something that can be asynchronous
-        //Start Main coroutine for operations on UI
+    private suspend fun setTextOnMainThread(input: String, input2: String, input3: String){ //suspend marks this function as something that can be asynchronous
+        //start Main coroutine for operations on UI
         withContext(Main){
             setNewText(input)
             setNewText2("Global mastery score: $input2")
+            setNewImage(input3)
         }
     }
 
@@ -69,28 +80,28 @@ class SearchScreenFragment : Fragment() {
         //this parse string to json format
         val json = JSONObject(summonerInfo) //string instance holding the above json
         val summonerId = json.getString("id") //get value by key
+        val summonerIcon = json.getString("profileIconId") //get value by key
 
         val masteryScore = getMasteryScore(summonerId)
 
-        setTextOnMainThread(summonerInfo, masteryScore)
+        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
 
-    //gets summoner ids by summoner name
+    //gets summoner ids by summoner name (api request: summoner by name)
     private fun getSummoner(input: String): String {
-        logThread("getSummoner")
         return URL("https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$input?api_key=$key").readText()
     }
 
-    //gets global mastery score by summonerId
+    //gets global mastery score by summonerId (api request: mastery by summonerId)
     private fun getMasteryScore(input: String): String {
         return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$input?api_key=$key").readText()
     }
 
     //function to log current thread where operation is taking place
-    //Can be deleted later
+    //can be deleted later
     private fun logThread(methodName: String) {
-        println("debug: ${methodName}: ${Thread.currentThread().name}")
+        println("Thread debug: ${methodName}: ${Thread.currentThread().name}")
     }
 }
