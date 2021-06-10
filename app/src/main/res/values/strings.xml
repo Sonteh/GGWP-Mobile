@@ -2,9 +2,10 @@
     <string name="app_name">GGWP-Mobile</string>
     <string name="starting_screen">Hello from Starting Screen</string>
     <string name="searching_screen">Hello from Searching Screen</string>
-    <string name="start">Start</string>
+    <string name="start">START</string>
     <string name="summoner_name">Summoner name</string>
     <string name="eune">EUNE</string>
-    <string name="Button">EUNE</string>
-    <string name="Text">EUNE</string>
+    <string name="button">EUNE</string>
+    <string name="text">EUNE</string>
+    <string name="logo">GGWP.M</string>
 </resources>
