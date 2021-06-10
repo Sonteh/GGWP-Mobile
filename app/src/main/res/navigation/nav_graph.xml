@@ -9,7 +9,7 @@
         android:id="@+id/SearchScreenFragment"
         android:name="com.example.ggwp_mobile.SearchScreenFragment"
         android:label="fragment_search_screen_"
-        tools:layout="@layout/fragment_search_screen_" />
+        tools:layout="@layout/fragment_search_screen" />
     <fragment
         android:id="@+id/startScreenFragment"
         android:name="com.example.ggwp_mobile.StartScreenFragment"
