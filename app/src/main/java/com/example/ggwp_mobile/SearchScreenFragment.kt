@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_search_screen.*
@@ -31,6 +32,7 @@ class SearchScreenFragment : Fragment() {
 
 
         val buttonSearch = layout.findViewById<Button>(R.id.button)
+        val buttonGoToMatchHistory = layout.findViewById<Button>(R.id.button2)
 
         //setup a button listener to search for summoner
         buttonSearch.setOnClickListener {
@@ -41,6 +43,10 @@ class SearchScreenFragment : Fragment() {
             CoroutineScope(IO).launch {
                 fakeSummoner(summoner)
             }
+        }
+
+        buttonGoToMatchHistory.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_matchHistoryFragment)
         }
 
         return layout

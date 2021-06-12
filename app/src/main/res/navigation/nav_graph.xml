@@ -9,7 +9,11 @@
         android:id="@+id/SearchScreenFragment"
         android:name="com.example.ggwp_mobile.SearchScreenFragment"
         android:label="fragment_search_screen_"
-        tools:layout="@layout/fragment_search_screen" />
+        tools:layout="@layout/fragment_search_screen" >
+        <action
+            android:id="@+id/action_SearchScreenFragment_to_matchHistoryFragment"
+            app:destination="@id/matchHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/startScreenFragment"
         android:name="com.example.ggwp_mobile.StartScreenFragment"
@@ -19,4 +23,9 @@
             android:id="@+id/action_startScreenFragment_to_SearchScreenFragment"
             app:destination="@id/SearchScreenFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/matchHistoryFragment"
+        android:name="com.example.ggwp_mobile.MatchHistoryFragment"
+        android:label="fragment_match_history_screen"
+        tools:layout="@layout/fragment_match_history_screen" />
 </navigation>
