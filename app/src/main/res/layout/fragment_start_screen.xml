@@ -18,7 +18,7 @@
             android:id="@+id/buttonStart"
             android:layout_width="210dp"
             android:layout_height="74dp"
-            android:text="@string/start"
+            android:text="@string/search"
             android:backgroundTint="@color/white"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"

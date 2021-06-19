@@ -63,9 +63,14 @@ class SearchScreenFragment : Fragment() {
         nickView.text = input
     }
 
-    //this function sets UI nickView
+    //this function sets UI accountLvlView
     private fun setAccountLvl(input: String){
         accountLvlView.text = input
+    }
+
+    //this function sets UI leagueEntriesView
+    private fun setLeagueEntries(input: String){
+        leagueEntriesView.text = input
     }
 
     //this function sets UI profileIconView
@@ -77,7 +82,7 @@ class SearchScreenFragment : Fragment() {
     }
 
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(input: String, input2: String, input3: String, input4: String){ //suspend marks this function as something that can be asynchronous
+    private suspend fun setTextOnMainThread(input: String, input2: String, input3: String, input4: String, input5: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
             setNewText(input)
@@ -85,6 +90,7 @@ class SearchScreenFragment : Fragment() {
             setNewImage(input3)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(input4)
+            setLeagueEntries(input5)
         }
     }
 
@@ -101,7 +107,9 @@ class SearchScreenFragment : Fragment() {
 
         viewModel.updatepuuId(json.getString("puuid"))
 
-        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl)
+        val leagueEntries = getLeagueEntries(summonerId, input2)
+
+        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, leagueEntries)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
@@ -114,6 +122,11 @@ class SearchScreenFragment : Fragment() {
     //gets global mastery score by summonerId (api request: mastery by summonerId)
     private fun getMasteryScore(input: String, input2: String): String {
         return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$input?api_key=$input2").readText()
+    }
+
+    //gets league entries by summonerId (api request: league entries by summoner Id)
+    private fun getLeagueEntries(input: String, input2: String): String {
+        return URL("https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/$input?api_key=$input2").readText()
     }
 
     //function to log current thread where operation is taking place

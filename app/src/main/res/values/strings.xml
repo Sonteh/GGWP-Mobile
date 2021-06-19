@@ -8,4 +8,6 @@
     <string name="button">EUNE</string>
     <string name="text">EUNE</string>
     <string name="logo">GGWP.M</string>
+    <string name="matches">Match history</string>
+    <string name="search">Search</string>
 </resources>
