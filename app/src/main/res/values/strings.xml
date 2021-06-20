@@ -10,4 +10,5 @@
     <string name="logo">GGWP.M</string>
     <string name="matches">Match history</string>
     <string name="search">Search</string>
+    <string name="testString">TestString</string>
 </resources>

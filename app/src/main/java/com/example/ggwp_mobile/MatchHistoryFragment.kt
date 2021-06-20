@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.beust.klaxon.Json
+import com.beust.klaxon.JsonObject
 import kotlinx.android.synthetic.main.fragment_match_history_screen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URL
 
 
@@ -26,30 +30,46 @@ class MatchHistoryFragment : Fragment() {
 
         val puuid = viewModel.returnpuuId()
         val key = viewModel.returnKey()
+
         CoroutineScope(Dispatchers.IO).launch {
-            matchHistory(puuid, key)
+            val matchHistory = getMatchHistory(puuid, key)
+
+            val matchDetails = getMatchDetails(key, matchHistory.getString(0))
+
+            val json = JSONObject(matchDetails)
+            val gameInfo = json.getString("info")
+
+            println(gameInfo)
+
+            println(matchDetails)
+
+
         }
 
         return layout
     }
 
-    private fun setNewText3(input: String) {
-        textView3.text = input
-    }
+//    private fun setTextOnMainThread(input: String)
+//    {
+//        CoroutineScope(Dispatchers.Main).launch {
+//            setNewText3(input)
+//    }
 
-    private fun setTextOnMainThread(input: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            setNewText3(input)
-        }
-    }
-
-    private fun matchHistory(input: String, input2: String) {
+    private fun getMatchHistory(input: String, input2: String): JSONArray
+    {
         val matchIds = getMatchIds(input, input2)
 
-        setTextOnMainThread(matchIds)
+        val json = JSONArray(matchIds)
+
+        return json
     }
 
-    private fun getMatchIds(input: String, input2: String): String {
-        return URL("https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/$input/ids?start=0&count=20&api_key=$input2").readText()
+    private fun getMatchIds(apiKey: String, puuid: String): String {
+        return URL("https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
+    }
+
+    private fun getMatchDetails(apiKey: String, matchId: String): String
+    {
+        return URL("https://europe.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
     }
 }
