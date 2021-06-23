@@ -32,7 +32,7 @@ class MatchHistoryFragment : Fragment() {
         val key = viewModel.returnKey()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val matchHistory = getMatchHistory(puuid, key)
+            val matchHistory = getMatchHistory(key, puuid)
 
             val matchDetails = getMatchDetails(key, matchHistory.getString(0))
 
@@ -55,9 +55,9 @@ class MatchHistoryFragment : Fragment() {
 //            setNewText3(input)
 //    }
 
-    private fun getMatchHistory(input: String, input2: String): JSONArray
+    private fun getMatchHistory(apiKey: String, puuid: String): JSONArray
     {
-        val matchIds = getMatchIds(input, input2)
+        val matchIds = getMatchIds(apiKey, puuid)
 
         val json = JSONArray(matchIds)
 
