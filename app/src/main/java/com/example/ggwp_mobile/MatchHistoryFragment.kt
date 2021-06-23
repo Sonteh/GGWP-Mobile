@@ -30,19 +30,36 @@ class MatchHistoryFragment : Fragment() {
 
         val puuid = viewModel.returnpuuId()
         val key = viewModel.returnKey()
+        val summonerName2 = viewModel.returnSummonerName()
 
         CoroutineScope(Dispatchers.IO).launch {
             val matchHistory = getMatchHistory(key, puuid)
 
-            val matchDetails = getMatchDetails(key, matchHistory.getString(0))
 
-            val json = JSONObject(matchDetails)
-            val gameInfo = json.getString("info")
+            for (i in 0..19)
+            {
+                val matchDetails = getMatchDetails(key, matchHistory.getString(i))
+                val json = JSONObject(matchDetails)
+                //val gameInfo = json.getString("info")
+                val gameInfo = json.getJSONObject("info")
 
-            println(gameInfo)
+                val participants = gameInfo.getJSONArray("participants")
 
-            println(matchDetails)
+                for(j in 0..9)
+                {
+                    val participant = participants.getJSONObject(j)
+                    val summonerName = participant.get("summonerName")
 
+                    if (summonerName == summonerName2)
+                    {
+                        val champion = participant.get("championName")
+                        println("$summonerName played $champion")
+                    }
+                }
+
+                //println("$participants")
+
+            }
 
         }
 
