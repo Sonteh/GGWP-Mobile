@@ -122,7 +122,7 @@ class SearchScreenFragment : Fragment() {
         val masteryScore = getMasteryScore(summonerId, apiKey)
 
         viewModel.updatepuuId(json.getString("puuid"))
-
+        viewModel.updateSummonerID(json.getString("id"))
 
         val leagueEntries = getLeagueEntries(summonerId, apiKey)
         val leagueEntriesJson = JSONArray(leagueEntries)

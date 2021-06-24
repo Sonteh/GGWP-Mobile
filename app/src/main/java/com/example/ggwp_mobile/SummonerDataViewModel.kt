@@ -10,6 +10,7 @@ class SummonerDataViewModel : ViewModel() {
 
     private var puuId: String = ""
     var summonerName: String = ""
+    var summonerId: String = ""
 
     fun updatepuuId(input: String) {
         puuId = input
@@ -17,6 +18,14 @@ class SummonerDataViewModel : ViewModel() {
 
     fun returnpuuId(): String {
         return puuId
+    }
+
+    fun updateSummonerID(input: String) {
+        summonerId = input
+    }
+
+    fun returnSummonerId(): String {
+        return summonerId
     }
 
     fun updateSummonerName(input: String) {
