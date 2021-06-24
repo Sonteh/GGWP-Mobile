@@ -6,8 +6,8 @@
     android:padding="10dp"
     android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/horizontalChart"
         android:layout_width="390dp"
         android:layout_height="711dp"
         app:layout_constraintStart_toStartOf="parent"
