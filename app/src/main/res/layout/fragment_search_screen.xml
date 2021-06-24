@@ -94,6 +94,7 @@
             android:layout_height="343dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/stats_background_1"
+            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.444"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,6 +168,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/lossesView"
                 app:layout_constraintStart_toEndOf="@+id/winsView" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
