@@ -15,8 +15,10 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
+import java.util.*
 
 
 class SearchScreenFragment : Fragment() {
@@ -74,23 +76,27 @@ class SearchScreenFragment : Fragment() {
     }
 
     //this function sets UI profileIconView
-    private fun setNewImage(input: String){
+    private fun setNewImage(input: String, input2: String){
         logThread("setNewImage")
         //using library Picasso: https://github.com/square/picasso
         //for some reason it can be used on Main thread
         Picasso.get().load("https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon$input.png").into(profileIconView)
+
+        var rank = input2.toLowerCase(Locale.ROOT)
+        rank = rank.capitalize(Locale.ROOT)
+        Picasso.get().load("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank+"_Emblem.png").into(soloRankImageView);
     }
 
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(input: String, input2: String, input3: String, input4: String, input5: String){ //suspend marks this function as something that can be asynchronous
+    private suspend fun setTextOnMainThread(summonerInfo: String, masteryScore: String, summonerIcon: String, summonerLvl: String, leagueEntries: String, rank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
-            setNewText(input)
-            setMasteryLvl("Global mastery score: $input2")
-            setNewImage(input3)
+            setNewText(summonerInfo)
+            setMasteryLvl("Global mastery score: $masteryScore")
+            setNewImage(summonerIcon, rank)
             setNickname(viewModel.returnSummonerName())
-            setAccountLvl(input4)
-            setLeagueEntries(input5)
+            setAccountLvl(summonerLvl)
+            setLeagueEntries(leagueEntries)
         }
     }
 
@@ -103,30 +109,35 @@ class SearchScreenFragment : Fragment() {
         val summonerIcon = json.getString("profileIconId") //get value by key
         val summonerLvl = json.getString("summonerLevel") //get value by key
 
+
+
         val masteryScore = getMasteryScore(summonerId, input2)
 
         viewModel.updatepuuId(json.getString("puuid"))
 
-        val leagueEntries = getLeagueEntries(summonerId, input2)
 
-        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, leagueEntries)
+        val leagueEntries = getLeagueEntries(summonerId, input2)
+        val json2 = JSONArray(leagueEntries)
+        val rank = json2.getJSONObject(0)
+        val tier = rank.getString("tier")
+        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, leagueEntries, tier)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
 
     //gets summoner ids by summoner name (api request: summoner by name)
-    private fun getSummoner(input: String, input2: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$input?api_key=$input2").readText()
+    private fun getSummoner(summonerName: String, apiKey: String): String {
+        return URL("https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$summonerName?api_key=$apiKey").readText()
     }
 
     //gets global mastery score by summonerId (api request: mastery by summonerId)
-    private fun getMasteryScore(input: String, input2: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$input?api_key=$input2").readText()
+    private fun getMasteryScore(summonerId: String, apiKey: String): String {
+        return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
     //gets league entries by summonerId (api request: league entries by summoner Id)
-    private fun getLeagueEntries(input: String, input2: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/$input?api_key=$input2").readText()
+    private fun getLeagueEntries(summonerId: String, apiKey: String): String {
+        return URL("https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
     //function to log current thread where operation is taking place
