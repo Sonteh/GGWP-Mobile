@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_SearchScreenFragment_to_matchHistoryFragment"
             app:destination="@id/matchHistoryFragment" />
+        <action
+            android:id="@+id/action_SearchScreenFragment_to_chartScreenFragment"
+            app:destination="@id/chartScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/startScreenFragment"
@@ -28,4 +31,9 @@
         android:name="com.example.ggwp_mobile.MatchHistoryFragment"
         android:label="fragment_match_history_screen"
         tools:layout="@layout/fragment_match_history_screen" />
+    <fragment
+        android:id="@+id/chartScreenFragment"
+        android:name="com.example.ggwp_mobile.ChartScreenFragment"
+        android:label="fragment_chart_screen"
+        tools:layout="@layout/fragment_chart_screen" />
 </navigation>

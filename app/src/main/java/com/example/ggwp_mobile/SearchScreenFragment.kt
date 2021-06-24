@@ -34,6 +34,7 @@ class SearchScreenFragment : Fragment() {
         val key = viewModel.returnKey()
 
         val buttonGoToMatchHistory = layout.findViewById<Button>(R.id.matchHistoryButton)
+        val buttonGoToChart = layout.findViewById<Button>(R.id.chartButton)
 
         val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
         println(summoner)
@@ -45,6 +46,10 @@ class SearchScreenFragment : Fragment() {
 
         buttonGoToMatchHistory.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_SearchScreenFragment_to_matchHistoryFragment)
+        }
+
+        buttonGoToChart.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartScreenFragment)
         }
 
         return layout
