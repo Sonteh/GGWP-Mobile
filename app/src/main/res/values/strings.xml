@@ -11,4 +11,5 @@
     <string name="matches">Match history</string>
     <string name="search">Search</string>
     <string name="testString">TestString</string>
+    <string name="barChart">Champions mastery</string>
 </resources>
