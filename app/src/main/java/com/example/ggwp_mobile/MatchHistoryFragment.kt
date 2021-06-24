@@ -43,10 +43,6 @@ class MatchHistoryFragment : Fragment() {
         val key = viewModel.returnKey()
         val summonerName2 = viewModel.returnSummonerName()
 
-//        val cardView = layout.findViewById<CardView>(R.id.base_cardview)
-//        val arrow = layout.findViewById<Button>(R.id.arrow_button)
-//        val hiddenView = layout.findViewById<View>(R.id.hidden_view)
-
         val linearLayout: LinearLayout = layout.findViewById(R.id.layout_main)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -109,9 +105,11 @@ class MatchHistoryFragment : Fragment() {
                             if (playerWin) {
                                 playerResult = "WIN"
                                 matchItem.setBackgroundColor(Color.parseColor("#446cff"))
+                                cardView.setCardBackgroundColor(Color.parseColor("#446cff"))
                             } else {
                                 playerResult = "LOST"
                                 matchItem.setBackgroundColor(Color.parseColor("#ff8385"))
+                                cardView.setCardBackgroundColor(Color.parseColor("#ff8385"))
                             }
                             matchItem.text = "$summonerName played $championName $kills/$deaths/$assists \n $playerResult"
                             arrow.setOnClickListener(getOnClick(cardView, hiddenView))
