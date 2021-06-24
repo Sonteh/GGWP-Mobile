@@ -51,44 +51,48 @@ class SearchScreenFragment : Fragment() {
     }
 
     //this function sets UI textView
-    private fun setNewText(input: String){
-        textView.text = input
+    private fun setNewText(summonerData: String){
+        textView.text = summonerData
     }
 
     //this function sets UI totalMasteryView
-    private fun setMasteryLvl(input: String){
-        totalMasteryView.text = input
+    private fun setMasteryLvl(masteryLvl: String){
+        totalMasteryView.text = masteryLvl
     }
 
     //this function sets UI nickView
-    private fun setNickname(input: String){
-        nickView.text = input
+    private fun setNickname(summonerName: String){
+        nickView.text = summonerName
     }
 
     //this function sets UI accountLvlView
-    private fun setAccountLvl(input: String){
-        accountLvlView.text = input
+    private fun setAccountLvl(lvl: String){
+        accountLvlView.text = lvl
     }
 
-    //this function sets UI leagueEntriesView
-    private fun setLeagueEntries(input: String){
-        leagueEntriesView.text = input
+    private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double){
+        rankView.text = rank
+        tierView.text = tier
+        lpView.text = lp
+        winsView.text = wins.toString()
+        lossesView.text = losses.toString()
+        winRateView.text = winRate.toString()
     }
 
     //this function sets UI profileIconView
-    private fun setNewImage(input: String, input2: String){
+    private fun setNewImage(iconId: String, soloRank: String){
         logThread("setNewImage")
         //using library Picasso: https://github.com/square/picasso
         //for some reason it can be used on Main thread
-        Picasso.get().load("https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon$input.png").into(profileIconView)
+        Picasso.get().load("https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon$iconId.png").into(profileIconView)
 
-        var rank = input2.toLowerCase(Locale.ROOT)
+        var rank = soloRank.toLowerCase(Locale.ROOT)
         rank = rank.capitalize(Locale.ROOT)
         Picasso.get().load("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank+"_Emblem.png").into(soloRankImageView);
     }
 
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(summonerInfo: String, masteryScore: String, summonerIcon: String, summonerLvl: String, leagueEntries: String, rank: String){ //suspend marks this function as something that can be asynchronous
+    private suspend fun setTextOnMainThread(summonerInfo: String, masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
             setNewText(summonerInfo)
@@ -96,12 +100,11 @@ class SearchScreenFragment : Fragment() {
             setNewImage(summonerIcon, rank)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(summonerLvl)
-            setLeagueEntries(leagueEntries)
         }
     }
 
-    private suspend fun fakeSummoner(input: String, input2: String): String{
-        val summonerInfo = getSummoner(input, input2)
+    private suspend fun fakeSummoner(summonerName: String, apiKey: String): String{
+        val summonerInfo = getSummoner(summonerName, apiKey)
 
         //this parse string to json format
         val json = JSONObject(summonerInfo) //string instance holding the above json
@@ -111,16 +114,23 @@ class SearchScreenFragment : Fragment() {
 
 
 
-        val masteryScore = getMasteryScore(summonerId, input2)
+        val masteryScore = getMasteryScore(summonerId, apiKey)
 
         viewModel.updatepuuId(json.getString("puuid"))
 
 
-        val leagueEntries = getLeagueEntries(summonerId, input2)
-        val json2 = JSONArray(leagueEntries)
-        val rank = json2.getJSONObject(0)
-        val tier = rank.getString("tier")
-        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, leagueEntries, tier)
+        val leagueEntries = getLeagueEntries(summonerId, apiKey)
+        val leagueEntriesJson = JSONArray(leagueEntries)
+        val leagueEntriesJsonObject = leagueEntriesJson.getJSONObject(0)
+        val tier = leagueEntriesJsonObject.getString("tier")
+        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, tier)
+
+        val rank = leagueEntriesJsonObject.getString("rank")
+        val leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
+        val wins = leagueEntriesJsonObject.getString("wins").toInt()
+        val losses = leagueEntriesJsonObject.getString("losses").toInt()
+        val winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        setRankedStats(tier, rank, leaguePoints, wins, losses, winRate)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
