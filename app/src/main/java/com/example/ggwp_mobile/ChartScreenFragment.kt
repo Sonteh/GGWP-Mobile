@@ -46,11 +46,10 @@ class ChartScreenFragment: Fragment() {
                 val visitiors: MutableList<BarEntry> = ArrayList()
                 var i = 1
                 for ((key, value) in statsMap){
-
                     visitiors.add(BarEntry(i.toFloat(), value.toFloat()))
                     i++
                 }
-//                visitiors.add(BarEntry(0f, 32185302f))
+                visitiors.add(BarEntry(16f, 0f))
 //                visitiors.add(BarEntry(1f, 16263695f))
 //                visitiors.add(BarEntry(2f, 3180810f))
 //                visitiors.add(BarEntry(3f, 2751632f))
@@ -64,16 +63,16 @@ class ChartScreenFragment: Fragment() {
 //                visitiors.add(PieEntry(920f, "Greece"))
 //                visitiors.add(PieEntry(732f, "Russia"))
 
-                val barDataSet = BarDataSet(visitiors, "Deaths in Poland every year")
+                val barDataSet = BarDataSet(visitiors, "Champions by mastery points")
                 barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
                 barDataSet.valueTextColor = Color.BLACK
-                barDataSet.valueTextSize = 4f
+                barDataSet.valueTextSize = 8f
 
                 val barData = BarData(barDataSet)
 //
                 barChart.setFitBars(true)
                 barChart.data = barData
-                barChart.description.text = "Deaths"
+                barChart.description.text = "Mastery points"
                 barChart.animateY(2000)
             }
         }
@@ -125,7 +124,7 @@ class ChartScreenFragment: Fragment() {
         print("mapałęłęęłęłę"+myMap)
         //setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, tier)
         //print(stats)
-        return myMap
+        return myMap.entries.sortedBy { it.value }.associate { it.toPair() }
     }
 
     private fun getChampionMastery(summonerId: String, apiKey: String): String
