@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import com.github.mikephil.charting.charts.HorizontalBarChart
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_chart_screen.*
+import kotlinx.android.synthetic.main.fragment_bar_mastery_chart_screen.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -23,7 +19,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.net.URL
 
-class ChartScreenFragment: Fragment() {
+class BarMasteryChartScreenFragment: Fragment() {
 
     private val viewModel: SummonerDataViewModel by activityViewModels()
 
@@ -31,7 +27,7 @@ class ChartScreenFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val layout = inflater.inflate(R.layout.fragment_chart_screen, container, false)
+        val layout = inflater.inflate(R.layout.fragment_bar_mastery_chart_screen, container, false)
 
         val key = viewModel.returnKey()
         val summonerId = viewModel.returnSummonerId()
@@ -69,7 +65,7 @@ class ChartScreenFragment: Fragment() {
                 barDataSet.valueTextSize = 8f
 
                 val barData = BarData(barDataSet)
-//
+
                 barChart.setFitBars(true)
                 barChart.data = barData
                 barChart.description.text = "Mastery points"
@@ -131,32 +127,4 @@ class ChartScreenFragment: Fragment() {
     {
         return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
-
-//    private fun drawGraph(){
-//        //val pieChart = layout.findViewById<PieChart>(R.id.pieChart)
-//        val pieChart = pieChart
-//
-//        val visitiors: MutableList<PieEntry> = ArrayList()
-//        visitiors.add(PieEntry(2789f, "Gibraltar"))
-//        visitiors.add(PieEntry(2710f, "Czech"))
-//        visitiors.add(PieEntry(1739f, "USA"))
-//        visitiors.add(PieEntry(1704f, "Poland"))
-//        visitiors.add(PieEntry(1653f, "Spain"))
-//        visitiors.add(PieEntry(1528f, "France"))
-//        visitiors.add(PieEntry(982f, "Germany"))
-//        visitiors.add(PieEntry(920f, "Greece"))
-//        visitiors.add(PieEntry(732f, "Russia"))
-//
-//        val pieDataSet = PieDataSet(visitiors, "Covid infections per 1 million")
-//        pieDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-//        pieDataSet.valueTextColor = Color.BLACK
-//        pieDataSet.valueTextSize = 16f
-//
-//        val pieData = PieData(pieDataSet)
-//
-////        pieChart.data = pieData
-////        pieChart.description.isEnabled = false
-////        pieChart.centerText = "COVID"
-////        pieChart.animate()
-//    }
 }

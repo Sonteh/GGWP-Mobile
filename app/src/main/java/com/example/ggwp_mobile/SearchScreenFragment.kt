@@ -49,7 +49,7 @@ class SearchScreenFragment : Fragment() {
         }
 
         buttonGoToChart.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartScreenFragment)
+            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartsScreenFragment)
         }
 
         return layout

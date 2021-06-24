@@ -14,8 +14,8 @@
             android:id="@+id/action_SearchScreenFragment_to_matchHistoryFragment"
             app:destination="@id/matchHistoryFragment" />
         <action
-            android:id="@+id/action_SearchScreenFragment_to_chartScreenFragment"
-            app:destination="@id/chartScreenFragment" />
+            android:id="@+id/action_SearchScreenFragment_to_chartsScreenFragment"
+            app:destination="@id/chartsScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/startScreenFragment"
@@ -33,7 +33,16 @@
         tools:layout="@layout/fragment_match_history_screen" />
     <fragment
         android:id="@+id/chartScreenFragment"
-        android:name="com.example.ggwp_mobile.ChartScreenFragment"
+        android:name="com.example.ggwp_mobile.BarMasteryChartScreenFragment"
         android:label="fragment_chart_screen"
-        tools:layout="@layout/fragment_chart_screen" />
+        tools:layout="@layout/fragment_bar_mastery_chart_screen" />
+    <fragment
+        android:id="@+id/chartsScreenFragment"
+        android:name="com.example.ggwp_mobile.ChartsScreenFragment"
+        android:label="fragment_charts_screen"
+        tools:layout="@layout/fragment_charts_screen" >
+        <action
+            android:id="@+id/action_chartsScreenFragment_to_chartScreenFragment"
+            app:destination="@id/chartScreenFragment" />
+    </fragment>
 </navigation>

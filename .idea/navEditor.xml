@@ -13,18 +13,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-202" />
-                            <option name="y" value="43" />
+                            <option name="x" value="-339" />
+                            <option name="y" value="-82" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_SearchScreenFragment_to_chartScreenFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_SearchScreenFragment_to_chartScreenFragment2">
+                            <entry key="action_SearchScreenFragment_to_chartsScreenFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -44,9 +39,30 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-42" />
-                            <option name="y" value="336" />
+                            <option name="x" value="19" />
+                            <option name="y" value="217" />
                           </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="chartsScreenFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-261" />
+                            <option name="y" value="316" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_chartsScreenFragment_to_chartScreenFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -56,8 +72,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="49" />
-                            <option name="y" value="37" />
+                            <option name="x" value="28" />
+                            <option name="y" value="-114" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -68,8 +84,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-458" />
-                            <option name="y" value="119" />
+                            <option name="x" value="-543" />
+                            <option name="y" value="111" />
                           </Point>
                         </option>
                         <option name="myPositions">
