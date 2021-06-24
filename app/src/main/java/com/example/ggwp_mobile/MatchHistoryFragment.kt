@@ -1,14 +1,23 @@
 package com.example.ggwp_mobile
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.compose.ui.text.toLowerCase
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_match_history_screen.*
+import kotlinx.android.synthetic.main.match_child.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -56,21 +65,38 @@ class MatchHistoryFragment : Fragment() {
 
                     if (summonerName == summonerName2)
                     {
-                        val champion = participant.get("championName")
+                        val championName = participant.get("championName")
+                        val championId = participant.get("championId")
+                        val kills = participant.get("kills")
+                        val deaths = participant.get("deaths")
+                        val assists = participant.get("assists")
+
                         withContext(Main) {
                             val view: View = layoutInflater.inflate(R.layout.match_child, null)
                             val matchItem: TextView = view.findViewById(R.id.match_item)
-                            matchItem.text = "$summonerName played $champion"
+
+                            Picasso.get().load("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/$championId.png").into(object: com.squareup.picasso.Target {
+
+                                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?)
+                                {
+                                    //Log.v("DEBUG", "onBitmapLoaded")
+                                    val drawImage: Drawable = BitmapDrawable(resources, bitmap)
+                                    matchItem.setCompoundDrawablesWithIntrinsicBounds(drawImage, null, null, null)
+                                }
+
+                                override fun onPrepareLoad(placeHolderDrawable: Drawable?)
+                                {}
+
+                                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?)
+                                {}
+                            })
+                            matchItem.text = "$summonerName played $championName $kills/$deaths/$assists"
                             linearLayout.addView(view)
                         }
-                        println("$summonerName played $champion")
+                        println("$summonerName played $championName")
                     }
                 }
-
-                //println("$participants")
-
             }
-
         }
 
         return layout
