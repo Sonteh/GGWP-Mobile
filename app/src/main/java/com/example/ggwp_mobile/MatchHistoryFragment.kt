@@ -1,7 +1,6 @@
 package com.example.ggwp_mobile
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -67,7 +66,7 @@ class MatchHistoryFragment : Fragment() {
                         val deaths = participant.get("deaths")
                         val assists = participant.get("assists")
                         val playerWin = participant.get("win").toString().toBoolean()
-                        var playerResult: String = ""
+                        var playerResult = ""
                         val goldEarned = participant.get("goldEarned")
                         val magicDamageDealtToChampions = participant.get("magicDamageDealtToChampions")
                         val physicalDamageDealtToChampions = participant.get("physicalDamageDealtToChampions")
@@ -149,8 +148,8 @@ class MatchHistoryFragment : Fragment() {
                 TransitionManager.beginDelayedTransition(
                     cardView,
                     AutoTransition()
-                );
-                hiddenView.visibility = View.GONE;
+                )
+                hiddenView.visibility = View.GONE
                 // arrow.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
 
@@ -161,8 +160,8 @@ class MatchHistoryFragment : Fragment() {
                 TransitionManager.beginDelayedTransition(
                     cardView,
                     AutoTransition()
-                );
-                hiddenView.visibility = View.VISIBLE;
+                )
+                hiddenView.visibility = View.VISIBLE
                 // arrow.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         }
