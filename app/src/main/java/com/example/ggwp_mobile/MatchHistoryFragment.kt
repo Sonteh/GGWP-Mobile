@@ -68,13 +68,20 @@ class MatchHistoryFragment : Fragment() {
                         val assists = participant.get("assists")
                         val playerWin = participant.get("win").toString().toBoolean()
                         var playerResult: String = ""
+                        val goldEarned = participant.get("goldEarned")
+                        val magicDamageDealtToChampions = participant.get("magicDamageDealtToChampions")
+                        val physicalDamageDealtToChampions = participant.get("physicalDamageDealtToChampions")
 
                         withContext(Main) {
                             val view: View = layoutInflater.inflate(R.layout.match_child, null)
                             val matchItem: TextView = view.findViewById(R.id.match_item)
                             val cardView: CardView = view.findViewById(R.id.base_cardview)
-                            val arrow: ImageButton = view.findViewById(R.id.arrow_button)
                             val hiddenView: View = view.findViewById(R.id.hidden_view)
+
+                            val testString: TextView = view.findViewById(R.id.test_string)
+                            val testString2: TextView = view.findViewById(R.id.test_string2)
+                            val testString3: TextView = view.findViewById(R.id.test_string3)
+                            val testImage: ImageView = view.findViewById(R.id.imageView)
 
 
                             Picasso.get()
@@ -112,7 +119,11 @@ class MatchHistoryFragment : Fragment() {
                                 cardView.setCardBackgroundColor(Color.parseColor("#ff8385"))
                             }
                             matchItem.text = "$summonerName played $championName $kills/$deaths/$assists \n $playerResult"
-                            arrow.setOnClickListener(getOnClick(cardView, hiddenView))
+                            testString.text = "Gold Earned: $goldEarned"
+                            testString2.text = "Physical Damage to Champions: $physicalDamageDealtToChampions"
+                            testString3.text = "Magical Damage to Champions: $magicDamageDealtToChampions"
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/6630.png").into(testImage)
+                            cardView.setOnClickListener(getOnClick(cardView, hiddenView))
                             linearLayout.addView(view)
                         }
                         println("$summonerName played $championName")

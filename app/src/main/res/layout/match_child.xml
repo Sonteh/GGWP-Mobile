@@ -63,22 +63,22 @@ tools:context=".MainActivity">
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:drawableLeftCompat="@android:drawable/ic_menu_gallery"
-                    app:layout_constraintBottom_toTopOf="@+id/arrow_button"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Item" />
 
-                <!--This is ImageButton for the expansion icon.-->
-                <ImageButton
-                    android:id="@+id/arrow_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/arrow_down_float"
-                    app:layout_constraintBottom_toBottomOf="@id/fixed_layout"
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.802"
+                    app:layout_constraintHorizontal_bias="0.172"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@android:drawable/btn_dialog" />
 
-                    app:layout_constraintVertical_bias="0.0" />
+                <!--This is ImageButton for the expansion icon.-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,13 +112,14 @@ tools:context=".MainActivity">
                         android:layout_marginBottom="10dp" />
 
                     <TextView
+                        android:id="@+id/test_string"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:text="Database Management"
+                        android:text="@string/testString"
                         android:textColor="#000000"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <!--Child LinearLayout 2-->
@@ -136,13 +137,14 @@ tools:context=".MainActivity">
                         android:layout_marginBottom="10dp" />
 
                     <TextView
+                        android:id="@+id/test_string2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:text="Data Structures"
+                        android:text="@string/testString"
                         android:textColor="#000000"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <!--Child LinearLayout 3-->
@@ -160,13 +162,14 @@ tools:context=".MainActivity">
                         android:layout_marginBottom="10dp" />
 
                     <TextView
+                        android:id="@+id/test_string3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
-                        android:text="Operating Systems"
+                        android:text="@string/testString"
                         android:textColor="#000000"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
