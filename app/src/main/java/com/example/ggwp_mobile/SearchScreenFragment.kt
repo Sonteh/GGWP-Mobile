@@ -42,7 +42,7 @@ class SearchScreenFragment : Fragment() {
 
         //Start IO (input/output) coroutine for network operations
         CoroutineScope(IO).launch {
-            fakeSummoner(summoner, key)
+            fakeSummoner(key)
         }
 
         val soloQ = layout.findViewById<Button>(R.id.soloQButton)
@@ -94,7 +94,7 @@ class SearchScreenFragment : Fragment() {
         lossesView.text = "Ranked L:\n$losses"
         winRateView.text = "Winrate: $winRate%"
 
-        flexRankView.text = "$flexRank $flexTier"
+        flexRankView.text = "$flexTier $flexRank"
         flexLpView.text = "Lp: $flexLeaguePoints"
         flexWinsView.text = "Ranked W:\n$flexWins"
         flexLossesView.text = "Ranked L:\n$flexLosses"
@@ -102,7 +102,7 @@ class SearchScreenFragment : Fragment() {
     }
 
     //this function sets UI profileIconView
-    private fun setNewImage(iconId: String, soloRank: String){
+    private fun setNewImage(iconId: String, soloRank: String, flexRank: String){
         logThread("setNewImage")
         //using library Picasso: https://github.com/square/picasso
         //for some reason it can be used on Main thread
@@ -110,21 +110,27 @@ class SearchScreenFragment : Fragment() {
 
         var rank = soloRank.toLowerCase(Locale.ROOT)
         rank = rank.capitalize(Locale.ROOT)
-        Picasso.get().load("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank+"_Emblem.png").into(soloRankImageView);
+        Picasso.get().load("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank+"_Emblem.png").into(soloRankImageView)
+
+        var rank2 = flexRank.toLowerCase(Locale.ROOT)
+        rank2 = rank2.capitalize(Locale.ROOT)
+        Picasso.get().load("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank2+"_Emblem.png").into(flexRankImageView)
+        println("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank+"_Emblem.png")
+        println("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank2+"_Emblem.png")
     }
 
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String){ //suspend marks this function as something that can be asynchronous
+    private suspend fun setTextOnMainThread(masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String, flexRank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
             setMasteryLvl("Mastery score: $masteryScore")
-            setNewImage(summonerIcon, rank)
+            setNewImage(summonerIcon, rank, flexRank)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(summonerLvl)
         }
     }
 
-    private suspend fun fakeSummoner(summonerName: String, apiKey: String): String
+    private suspend fun fakeSummoner(apiKey: String)
     {
         val summonerId = viewModel.returnSummonerId()
         val summonerIcon = viewModel.returnSummonerIcon()
@@ -134,32 +140,27 @@ class SearchScreenFragment : Fragment() {
 
         val leagueEntries = getLeagueEntries(summonerId, apiKey)
         val leagueEntriesJson = JSONArray(leagueEntries)
-        var leagueEntriesJsonObject = leagueEntriesJson.getJSONObject(0)
-        val tier = leagueEntriesJsonObject.getString("tier")
 
-        setTextOnMainThread(masteryScore, summonerIcon, summonerLvl, tier)
+        var tier = "0"
+        var rank = "Unranked"
+        var leaguePoints = "0"
+        var wins = 0
+        var losses = 0
+        var winRate = 0.00
 
-        var rank = leagueEntriesJsonObject.getString("rank")
-        var leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
-        var wins = leagueEntriesJsonObject.getString("wins").toInt()
-        var losses = leagueEntriesJsonObject.getString("losses").toInt()
-        var winRate = wins.toDouble() / (wins.toDouble() + losses.toDouble())
-        winRate = Math.round(winRate * 1000.0) / 10.0
-
-
-        var flexRank = "Unranked"
-        var flexTier = "0"
+        var flexRank = "0"
+        var flexTier = "Unranked"
         var flexLeaguePoints = "0"
         var flexWins = 0
         var flexLosses = 0
         var flexWinRate = 0.00
-
 
         for (i in 0 until leagueEntriesJson.length()){
             val test = leagueEntriesJson.getJSONObject(i)
             println(test)
             if (test.getString("queueType") == "RANKED_SOLO_5x5") {
                 rank = test.getString("rank")
+                tier = test.getString("tier")
                 leaguePoints = test.getString("leaguePoints")
                 wins = test.getString("wins").toInt()
                 losses = test.getString("losses").toInt()
@@ -177,10 +178,8 @@ class SearchScreenFragment : Fragment() {
             }
         }
 
-
+        setTextOnMainThread(masteryScore, summonerIcon, summonerLvl, tier, flexTier)
         setRankedStats(tier, rank, leaguePoints, wins, losses, winRate, flexRank, flexTier, flexLeaguePoints, flexWins, flexLosses, flexWinRate)
-
-        return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
 
     //gets global mastery score by summonerId (api request: mastery by summonerId)
@@ -198,6 +197,4 @@ class SearchScreenFragment : Fragment() {
     private fun logThread(methodName: String) {
         println("Thread debug: ${methodName}: ${Thread.currentThread().name}")
     }
-
-
 }

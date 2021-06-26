@@ -1,5 +1,6 @@
 package com.example.ggwp_mobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,18 +21,15 @@ class PatchNotesFragment: Fragment() {
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_patch_notes_screen, container, false)
 
-        //val patchNotes = layout.findViewById<WebView>(R.id.patchNotesView)
-
-        //val patchnotes1: WebView = layout.findViewById(R.id.patchNotesView)
-
         val myWebView = layout.findViewById<WebView>(R.id.patchNotesView)
-        //myWebView.loadUrl("http://www.example.com")
+
         myWebView.webViewClient = WebViewClient()
         
         webViewSetup(myWebView)
         return layout
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun webViewSetup(myWebView: WebView) {
         myWebView.apply {
             loadUrl("https://na.leagueoflegends.com/en-us/news/tags/patch-notes")
