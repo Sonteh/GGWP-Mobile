@@ -29,6 +29,23 @@ import java.net.URL
 class MatchHistoryFragment : Fragment() {
 
     private val viewModel: SummonerDataViewModel by activityViewModels()
+    private lateinit var championName: String
+    private var championId: Int = 0
+    private var kills: Int = 0
+    private var deaths: Int = 0
+    private var assists: Int = 0
+    private var playerWin: Boolean = false
+    private lateinit var playerResult: String
+    private var goldEarned: Int = 0
+    private var magicDamageDealtToChampions: Int = 0
+    private var physicalDamageDealtToChampions: Int = 0
+    private var item0: Int = 0
+    private var item1: Int = 0
+    private var item2: Int = 0
+    private var item3: Int = 0
+    private var item4: Int = 0
+    private var item5: Int = 0
+    private var item6: Int = 0
 
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onCreateView(
@@ -50,7 +67,6 @@ class MatchHistoryFragment : Fragment() {
             for (i in 0..19) {
                 val matchDetails = getMatchDetails(key, matchHistory.getString(i))
                 val json = JSONObject(matchDetails)
-                //val gameInfo = json.getString("info")
                 val gameInfo = json.getJSONObject("info")
 
                 val participants = gameInfo.getJSONArray("participants")
@@ -60,16 +76,7 @@ class MatchHistoryFragment : Fragment() {
                     val summonerName = participant.get("summonerName")
 
                     if (summonerName == summonerName2) {
-                        val championName = participant.get("championName")
-                        val championId = participant.get("championId")
-                        val kills = participant.get("kills")
-                        val deaths = participant.get("deaths")
-                        val assists = participant.get("assists")
-                        val playerWin = participant.get("win").toString().toBoolean()
-                        var playerResult = ""
-                        val goldEarned = participant.get("goldEarned")
-                        val magicDamageDealtToChampions = participant.get("magicDamageDealtToChampions")
-                        val physicalDamageDealtToChampions = participant.get("physicalDamageDealtToChampions")
+                        getPlayerDataFromMatch(participant)
 
                         withContext(Main) {
                             val view: View = layoutInflater.inflate(R.layout.match_child, null)
@@ -80,7 +87,13 @@ class MatchHistoryFragment : Fragment() {
                             val testString: TextView = view.findViewById(R.id.test_string)
                             val testString2: TextView = view.findViewById(R.id.test_string2)
                             val testString3: TextView = view.findViewById(R.id.test_string3)
-                            val testImage: ImageView = view.findViewById(R.id.imageView)
+                            val itemImage0: ImageView = view.findViewById(R.id.itemImageView0)
+                            val itemImage1: ImageView = view.findViewById(R.id.itemImageView1)
+                            val itemImage2: ImageView = view.findViewById(R.id.itemImageView2)
+                            val itemImage3: ImageView = view.findViewById(R.id.itemImageView3)
+                            val itemImage4: ImageView = view.findViewById(R.id.itemImageView4)
+                            val itemImage5: ImageView = view.findViewById(R.id.itemImageView5)
+                            val itemImage6: ImageView = view.findViewById(R.id.itemImageView6)
 
 
                             Picasso.get()
@@ -121,11 +134,16 @@ class MatchHistoryFragment : Fragment() {
                             testString.text = "Gold Earned: $goldEarned"
                             testString2.text = "Physical Damage to Champions: $physicalDamageDealtToChampions"
                             testString3.text = "Magical Damage to Champions: $magicDamageDealtToChampions"
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/6630.png").into(testImage)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item0.png").into(itemImage0)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item1.png").into(itemImage1)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item2.png").into(itemImage2)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item3.png").into(itemImage3)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item4.png").into(itemImage4)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item5.png").into(itemImage5)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item6.png").into(itemImage6)
                             cardView.setOnClickListener(getOnClick(cardView, hiddenView))
                             linearLayout.addView(view)
                         }
-                        println("$summonerName played $championName")
                     }
                 }
             }
@@ -136,7 +154,6 @@ class MatchHistoryFragment : Fragment() {
     private fun getOnClick(cardView: CardView, hiddenView: View): View.OnClickListener
     {
         return View.OnClickListener {
-            println("TEST")
             // If the CardView is already expanded, set its visibility
             //  to gone and change the expand less icon to expand more.
             if (hiddenView.visibility == View.VISIBLE) {
@@ -180,5 +197,26 @@ class MatchHistoryFragment : Fragment() {
     private fun getMatchDetails(apiKey: String, matchId: String): String
     {
         return URL("https://europe.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
+    }
+
+    private fun getPlayerDataFromMatch(player: JSONObject)
+    {
+        championName = player.get("championName") as String
+        championId = player.get("championId") as Int
+        kills = player.get("kills") as Int
+        deaths = player.get("deaths") as Int
+        assists = player.get("assists") as Int
+        playerWin = player.get("win").toString().toBoolean()
+        playerResult = ""
+        goldEarned = player.get("goldEarned") as Int
+        magicDamageDealtToChampions = player.get("magicDamageDealtToChampions") as Int
+        physicalDamageDealtToChampions = player.get("physicalDamageDealtToChampions") as Int
+        item0 = player.get("item0") as Int
+        item1 = player.get("item1") as Int
+        item2 = player.get("item2") as Int
+        item3 = player.get("item3") as Int
+        item4 = player.get("item4") as Int
+        item5 = player.get("item5") as Int
+        item6 = player.get("item6") as Int
     }
 }

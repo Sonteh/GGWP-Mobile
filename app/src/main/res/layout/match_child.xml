@@ -9,6 +9,7 @@ android:background="#E4E3E3"
 tools:context=".MainActivity">
 
 <!--Base CardView-->
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/base_cardview"
         style="@style/Base.CardView"
@@ -67,16 +68,88 @@ tools:context=".MainActivity">
                     tools:text="Item" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/itemImageView0"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.172"
+                    app:layout_constraintHorizontal_bias="0.142"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@android:drawable/btn_dialog" />
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView1"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.265"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView2"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.387"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView3"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.51"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView4"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.633"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView5"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.756"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
+
+                <ImageView
+                    android:id="@+id/itemImageView6"
+                    android:layout_width="45dp"
+                    android:layout_height="41dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.879"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/match_item"
+                    app:layout_constraintVertical_bias="0.448"
+                    app:srcCompat="@mipmap/no_item" />
 
                 <!--This is ImageButton for the expansion icon.-->
 
