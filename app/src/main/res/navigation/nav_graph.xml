@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_SearchScreenFragment_to_chartsScreenFragment"
             app:destination="@id/chartsScreenFragment" />
+        <action
+            android:id="@+id/action_SearchScreenFragment_to_patchNotesScreenFragment"
+            app:destination="@id/patchNotesScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/startScreenFragment"
@@ -45,4 +48,9 @@
             android:id="@+id/action_chartsScreenFragment_to_chartScreenFragment"
             app:destination="@id/chartScreenFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/patchNotesScreenFragment"
+        android:name="com.example.ggwp_mobile.PatchNotesFragment"
+        android:label="fragment_patch_notes_screen"
+        tools:layout="@layout/fragment_patch_notes_screen" />
 </navigation>

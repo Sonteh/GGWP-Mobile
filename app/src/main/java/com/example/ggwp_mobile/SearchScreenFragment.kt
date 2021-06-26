@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,6 +37,7 @@ class SearchScreenFragment : Fragment() {
 
         val buttonGoToMatchHistory = layout.findViewById<Button>(R.id.matchHistoryButton)
         val buttonGoToChart = layout.findViewById<Button>(R.id.chartButton)
+        val buttonGoToPatchNotes = layout.findViewById<Button>(R.id.patchNotesButton)
 
         val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
         println(summoner)
@@ -50,6 +53,10 @@ class SearchScreenFragment : Fragment() {
 
         buttonGoToChart.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartsScreenFragment)
+        }
+
+        buttonGoToPatchNotes.setOnClickListener { view->
+            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_patchNotesScreenFragment)
         }
 
         return layout
