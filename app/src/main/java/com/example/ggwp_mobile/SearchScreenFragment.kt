@@ -1,5 +1,6 @@
 package com.example.ggwp_mobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,10 +37,6 @@ class SearchScreenFragment : Fragment() {
 
         val key = viewModel.returnKey()
 
-        val buttonGoToMatchHistory = layout.findViewById<Button>(R.id.matchHistoryButton)
-        val buttonGoToChart = layout.findViewById<Button>(R.id.chartButton)
-        val buttonGoToPatchNotes = layout.findViewById<Button>(R.id.patchNotesButton)
-
         val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
         println(summoner)
 
@@ -47,27 +44,16 @@ class SearchScreenFragment : Fragment() {
         CoroutineScope(IO).launch {
             fakeSummoner(summoner, key)
         }
-
-        buttonGoToMatchHistory.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_matchHistoryFragment)
-        }
-
-        buttonGoToChart.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartsScreenFragment)
-        }
-
-        buttonGoToPatchNotes.setOnClickListener { view->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_patchNotesScreenFragment)
-        }
         return layout
     }
 
     //this function sets UI textView
     private fun setNewText(summonerData: String){
-        textView.text = summonerData
+        //textView.text = summonerData
     }
 
     //this function sets UI totalMasteryView
+    @SuppressLint("SetTextI18n")
     private fun setMasteryLvl(masteryLvl: String){
         totalMasteryView.text = masteryLvl
     }
@@ -78,17 +64,18 @@ class SearchScreenFragment : Fragment() {
     }
 
     //this function sets UI accountLvlView
+    @SuppressLint("SetTextI18n")
     private fun setAccountLvl(lvl: String){
-        accountLvlView.text = lvl
+        accountLvlView.text = "Level: $lvl"
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double){
-        rankView.text = rank
-        tierView.text = tier
-        lpView.text = lp
-        winsView.text = wins.toString()
-        lossesView.text = losses.toString()
-        winRateView.text = winRate.toString()
+        rankView.text = "$rank $tier"
+        lpView.text = "Lp: $lp"
+        winsView.text = "Ranked W:\n$wins"
+        lossesView.text = "Ranked L:\n$losses"
+        winRateView.text = "Winrate: $winRate%"
     }
 
     //this function sets UI profileIconView
@@ -108,7 +95,7 @@ class SearchScreenFragment : Fragment() {
         //start Main coroutine for operations on UI
         withContext(Main){
             setNewText(summonerInfo)
-            setMasteryLvl("Global mastery score: $masteryScore")
+            setMasteryLvl("Mastery score: $masteryScore")
             setNewImage(summonerIcon, rank)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(summonerLvl)
@@ -141,7 +128,8 @@ class SearchScreenFragment : Fragment() {
         val leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
         val wins = leagueEntriesJsonObject.getString("wins").toInt()
         val losses = leagueEntriesJsonObject.getString("losses").toInt()
-        val winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        var winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        winRate = Math.round(winRate * 1000.0) / 10.0
         setRankedStats(tier, rank, leaguePoints, wins, losses, winRate)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW

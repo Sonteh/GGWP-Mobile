@@ -12,4 +12,5 @@
     <string name="search">Search</string>
     <string name="testString">TestString</string>
     <string name="barChart">Champions mastery</string>
+    <string name="level">Level: </string>
 </resources>
