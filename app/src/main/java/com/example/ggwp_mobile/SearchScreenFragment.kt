@@ -180,7 +180,7 @@ class SearchScreenFragment : Fragment() {
 
         setRankedStats(tier, rank, leaguePoints, wins, losses, winRate, flexRank, flexTier, flexLeaguePoints, flexWins, flexLosses, flexWinRate)
 
-        //return summonerId //testing here, THIS DOES NOTHING FOR NOW
+        return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
 
     //gets global mastery score by summonerId (api request: mastery by summonerId)
