@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class SummonerDataViewModel : ViewModel() {
 
     //place for changing api key
-    private val key: String = "RGAPI-decd883b-46d5-486e-98f1-4d48f7884814"
+    private val key: String = "RGAPI-3e4be9b6-a2cb-4a6c-95c3-589729b3c138"
 
 
     private var puuId: String = ""
