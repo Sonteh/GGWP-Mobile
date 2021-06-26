@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/miHome"
+        android:title="Profile"
+        android:icon="@drawable/ic_stats"/>
+    <item android:id="@+id/miSearch"
+        android:title="Matches"
+        android:icon="@drawable/ic_match_history"/>
+    <item android:id="@+id/placeHolder"
+        android:title="" />
+    <item android:id="@+id/miCos2"
+        android:title="News"
+        android:icon="@drawable/ic_news"/>
+    <item android:id="@+id/miCos3"
+        android:title="Stats"
+        android:icon="@drawable/ic_charts"/>
+</menu>

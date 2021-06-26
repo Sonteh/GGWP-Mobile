@@ -29,6 +29,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_SearchScreenFragment_to_patchNotesScreenFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -39,8 +44,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="22" />
-                            <option name="y" value="289" />
+                            <option name="x" value="43" />
+                            <option name="y" value="403" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -51,8 +56,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-261" />
-                            <option name="y" value="316" />
+                            <option name="x" value="-264" />
+                            <option name="y" value="476" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -72,8 +77,29 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="54" />
-                            <option name="y" value="-112" />
+                            <option name="x" value="39" />
+                            <option name="y" value="-81" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_matchHistoryFragment_to_SearchScreenFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="patchNotesScreenFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-120" />
+                            <option name="y" value="-443" />
                           </Point>
                         </option>
                       </LayoutPositions>

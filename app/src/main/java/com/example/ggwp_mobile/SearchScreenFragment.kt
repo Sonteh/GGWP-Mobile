@@ -1,13 +1,17 @@
 package com.example.ggwp_mobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search_screen.*
 import kotlinx.coroutines.CoroutineScope
@@ -33,9 +37,6 @@ class SearchScreenFragment : Fragment() {
 
         val key = viewModel.returnKey()
 
-        val buttonGoToMatchHistory = layout.findViewById<Button>(R.id.matchHistoryButton)
-        val buttonGoToChart = layout.findViewById<Button>(R.id.chartButton)
-
         val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
         println(summoner)
 
@@ -43,24 +44,11 @@ class SearchScreenFragment : Fragment() {
         CoroutineScope(IO).launch {
             fakeSummoner(summoner, key)
         }
-
-        buttonGoToMatchHistory.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_matchHistoryFragment)
-        }
-
-        buttonGoToChart.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_SearchScreenFragment_to_chartsScreenFragment)
-        }
-
         return layout
     }
 
-    //this function sets UI textView
-    private fun setNewText(summonerData: String){
-        textView.text = summonerData
-    }
-
     //this function sets UI totalMasteryView
+    @SuppressLint("SetTextI18n")
     private fun setMasteryLvl(masteryLvl: String){
         totalMasteryView.text = masteryLvl
     }
@@ -71,17 +59,18 @@ class SearchScreenFragment : Fragment() {
     }
 
     //this function sets UI accountLvlView
+    @SuppressLint("SetTextI18n")
     private fun setAccountLvl(lvl: String){
-        accountLvlView.text = lvl
+        accountLvlView.text = "Level: $lvl"
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double){
-        rankView.text = rank
-        tierView.text = tier
-        lpView.text = lp
-        winsView.text = wins.toString()
-        lossesView.text = losses.toString()
-        winRateView.text = winRate.toString()
+        rankView.text = "$rank $tier"
+        lpView.text = "Lp: $lp"
+        winsView.text = "Ranked W:\n$wins"
+        lossesView.text = "Ranked L:\n$losses"
+        winRateView.text = "Winrate: $winRate%"
     }
 
     //this function sets UI profileIconView
@@ -97,52 +86,40 @@ class SearchScreenFragment : Fragment() {
     }
 
     //calls set functions with parameters
-    private suspend fun setTextOnMainThread(summonerInfo: String, masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String){ //suspend marks this function as something that can be asynchronous
+    private suspend fun setTextOnMainThread(masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
-            setNewText(summonerInfo)
-            setMasteryLvl("Global mastery score: $masteryScore")
+            setMasteryLvl("Mastery score: $masteryScore")
             setNewImage(summonerIcon, rank)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(summonerLvl)
         }
     }
 
-    private suspend fun fakeSummoner(summonerName: String, apiKey: String): String{
-        val summonerInfo = getSummoner(summonerName, apiKey)
-
-        //this parse string to json format
-        val json = JSONObject(summonerInfo) //string instance holding the above json
-        val summonerId = json.getString("id") //get value by key
-        val summonerIcon = json.getString("profileIconId") //get value by key
-        val summonerLvl = json.getString("summonerLevel") //get value by key
-
-
+    private suspend fun fakeSummoner(summonerName: String, apiKey: String): String
+    {
+        val summonerId = viewModel.returnSummonerId()
+        val summonerIcon = viewModel.returnSummonerIcon()
+        val summonerLvl = viewModel.returnSummonerLevel()
 
         val masteryScore = getMasteryScore(summonerId, apiKey)
-
-        viewModel.updatepuuId(json.getString("puuid"))
-        viewModel.updateSummonerID(json.getString("id"))
 
         val leagueEntries = getLeagueEntries(summonerId, apiKey)
         val leagueEntriesJson = JSONArray(leagueEntries)
         val leagueEntriesJsonObject = leagueEntriesJson.getJSONObject(0)
         val tier = leagueEntriesJsonObject.getString("tier")
-        setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, tier)
+
+        setTextOnMainThread(masteryScore, summonerIcon, summonerLvl, tier)
 
         val rank = leagueEntriesJsonObject.getString("rank")
         val leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
         val wins = leagueEntriesJsonObject.getString("wins").toInt()
         val losses = leagueEntriesJsonObject.getString("losses").toInt()
-        val winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        var winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        winRate = Math.round(winRate * 1000.0) / 10.0
         setRankedStats(tier, rank, leaguePoints, wins, losses, winRate)
 
         return summonerId //testing here, THIS DOES NOTHING FOR NOW
-    }
-
-    //gets summoner ids by summoner name (api request: summoner by name)
-    private fun getSummoner(summonerName: String, apiKey: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$summonerName?api_key=$apiKey").readText()
     }
 
     //gets global mastery score by summonerId (api request: mastery by summonerId)
