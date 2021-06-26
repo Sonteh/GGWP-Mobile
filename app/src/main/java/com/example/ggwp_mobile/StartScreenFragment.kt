@@ -1,21 +1,22 @@
 package com.example.ggwp_mobile
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_start_screen.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import org.json.JSONObject
+import java.io.FileNotFoundException
+import java.net.URL
 
 
 class StartScreenFragment : Fragment() {
@@ -28,18 +29,59 @@ class StartScreenFragment : Fragment() {
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_start_screen, container, false)
 
+        val apiKey = viewModel.returnKey()
         val buttonStart: Button = layout.findViewById(R.id.buttonStart)
 
-        buttonStart.setOnClickListener { view ->
-            viewModel.updateSummonerName(editTextTextPersonName2!!.text.toString())
-            view.findNavController().navigate(R.id.SearchScreenFragment)
-            //
-//            val kek = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
-//            kek.isEnabled = false
+        viewModel.updateSummonerName("")
 
-            val lej = requireActivity().findViewById<CoordinatorLayout>(R.id.navbarLayout)
-            lej.visibility = View.VISIBLE
+        buttonStart.setOnClickListener { view ->
+
+            CoroutineScope(IO).launch {
+                getSummonerBasicInformation(apiKey, editTextTextPersonName2.text.toString())
+
+                withContext(Main)
+                {
+                    if (viewModel.returnSummonerName() != "")
+                    {
+                        view.findNavController().navigate(R.id.SearchScreenFragment)
+                        val bottomNavBarLayout = requireActivity().findViewById<CoordinatorLayout>(R.id.navbarLayout)
+                        bottomNavBarLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
         }
+
         return layout
+    }
+
+    //gets summoner ids by summoner name (api request: summoner by name)
+    private suspend fun getSummonerBasicInformation(apiKey: String, enteredSummonerName: String)
+    {
+        val json: String
+
+        try
+        {
+            json = URL("https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$enteredSummonerName?api_key=$apiKey").readText()
+        }
+        catch (e: FileNotFoundException)
+        {
+            println("ERROR $e")
+            withContext(Main)
+            {
+
+                Toast.makeText(context, "Summoner not found", Toast.LENGTH_SHORT).show()
+            }
+
+            return
+        }
+
+        val test = JSONObject(json)
+        println(json)
+
+        viewModel.updateSummonerID(test.getString("id"))
+        viewModel.updatepuuId(test.getString("puuid"))
+        viewModel.updateSummonerName(test.getString("name"))
+        viewModel.updateSummonerLevel(test.getString("summonerLevel"))
+        viewModel.updateSummonerIcon(test.get("profileIconId").toString())
     }
 }

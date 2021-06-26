@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModel
 class SummonerDataViewModel : ViewModel() {
 
     //place for changing api key
-    private val key: String = "RGAPI-3aa63050-3900-4308-b2f9-1f037581cb5f"
-
+    private val key: String = "RGAPI-3e4be9b6-a2cb-4a6c-95c3-589729b3c138"
 
     private var puuId: String = ""
-    var summonerName: String = ""
-    var summonerId: String = ""
+    private var summonerName: String = ""
+    private var summonerId: String = ""
+    private var summonerLevel: String = ""
+    private var summonerIcon: String = ""
 
     fun updatepuuId(input: String) {
         puuId = input
@@ -38,5 +39,21 @@ class SummonerDataViewModel : ViewModel() {
 
     fun returnKey(): String {
         return key
+    }
+
+    fun updateSummonerLevel(input: String) {
+        summonerLevel = input
+    }
+
+    fun returnSummonerLevel(): String {
+        return summonerLevel
+    }
+
+    fun updateSummonerIcon(input: String) {
+        summonerIcon = input
+    }
+
+    fun returnSummonerIcon(): String {
+        return summonerIcon
     }
 }

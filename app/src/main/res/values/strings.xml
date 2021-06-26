@@ -12,5 +12,7 @@
     <string name="search">Search</string>
     <string name="testString">TestString</string>
     <string name="barChart">Champions mastery</string>
+    <string name="item">Item</string>
+    <string name="playerMatchItem">%s played %s %s/%s/%s</string>
     <string name="level">Level: </string>
 </resources>

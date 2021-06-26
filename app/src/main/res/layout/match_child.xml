@@ -71,85 +71,92 @@ tools:context=".MainActivity">
                     android:id="@+id/itemImageView0"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.142"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView1"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.265"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView2"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.387"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView3"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.51"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView4"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.633"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView5"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.756"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <ImageView
                     android:id="@+id/itemImageView6"
                     android:layout_width="45dp"
                     android:layout_height="41dp"
+                    android:contentDescription="@string/item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.879"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/match_item"
                     app:layout_constraintVertical_bias="0.448"
-                    app:srcCompat="@mipmap/no_item" />
+                    app:srcCompat="@mipmap/no_item_foreground" />
 
                 <!--This is ImageButton for the expansion icon.-->
 

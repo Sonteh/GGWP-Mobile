@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +27,8 @@ import org.json.JSONObject
 import java.net.URL
 
 
-class MatchHistoryFragment : Fragment() {
-
+class MatchHistoryFragment : Fragment()
+{
     private val viewModel: SummonerDataViewModel by activityViewModels()
 
     @SuppressLint("SetTextI18n", "InflateParams")
@@ -40,93 +41,57 @@ class MatchHistoryFragment : Fragment() {
 
         val puuid = viewModel.returnpuuId()
         val key = viewModel.returnKey()
-        val summonerName2 = viewModel.returnSummonerName()
+        val summonerName = viewModel.returnSummonerName()
 
         val linearLayout: LinearLayout = layout.findViewById(R.id.layout_main)
 
         CoroutineScope(Dispatchers.IO).launch {
             val matchHistory = getMatchHistory(key, puuid)
 
-            for (i in 0..19) {
+            for (i in 0 until matchHistory.length())
+            {
                 val matchDetails = getMatchDetails(key, matchHistory.getString(i))
                 val json = JSONObject(matchDetails)
                 val gameInfo = json.getJSONObject("info")
 
                 val participants = gameInfo.getJSONArray("participants")
 
-                for (j in 0..9) {
+                for (j in 0 until participants.length())
+                {
                     val participant = participants.getJSONObject(j)
-                    val summonerName = participant.get("summonerName")
+                    val playerSummonerName = participant.get("summonerName")
 
-                    if (summonerName == summonerName2) {
-                        val playerDataMap = getPlayerDataFromMatch(participant)
+                    if (playerSummonerName == summonerName)
+                    {
+                        val playerDataMap = getPlayerDataFromMatchToHashMap(participant)
                         val playerResult = participant.get("win").toString().toBoolean()
 
+                        val view: View = layoutInflater.inflate(R.layout.match_child, null)
+
+                        val matchItem: TextView = view.findViewById(R.id.match_item)
+                        val cardView: CardView = view.findViewById(R.id.base_cardview)
+                        val hiddenView: View = view.findViewById(R.id.hidden_view)
+
+                        val goldEarned: TextView = view.findViewById(R.id.goldEarned)
+                        val physicalDamageDealtToChampions: TextView = view.findViewById(R.id.physicalDamageDealtToChampions)
+                        val magicalDamageDealtToChampions: TextView = view.findViewById(R.id.magicalDamageDealtToChampions)
+                        val itemImage0: ImageView = view.findViewById(R.id.itemImageView0)
+                        val itemImage1: ImageView = view.findViewById(R.id.itemImageView1)
+                        val itemImage2: ImageView = view.findViewById(R.id.itemImageView2)
+                        val itemImage3: ImageView = view.findViewById(R.id.itemImageView3)
+                        val itemImage4: ImageView = view.findViewById(R.id.itemImageView4)
+                        val itemImage5: ImageView = view.findViewById(R.id.itemImageView5)
+                        val itemImage6: ImageView = view.findViewById(R.id.itemImageView6)
+
                         withContext(Main) {
-                            val view: View = layoutInflater.inflate(R.layout.match_child, null)
-                            val matchItem: TextView = view.findViewById(R.id.match_item)
-                            val cardView: CardView = view.findViewById(R.id.base_cardview)
-                            val hiddenView: View = view.findViewById(R.id.hidden_view)
-
-                            val goldEarned: TextView = view.findViewById(R.id.goldEarned)
-                            val physicalDamageDealtToChampions: TextView = view.findViewById(R.id.physicalDamageDealtToChampions)
-                            val magicalDamageDealtToChampions: TextView = view.findViewById(R.id.magicalDamageDealtToChampions)
-                            val itemImage0: ImageView = view.findViewById(R.id.itemImageView0)
-                            val itemImage1: ImageView = view.findViewById(R.id.itemImageView1)
-                            val itemImage2: ImageView = view.findViewById(R.id.itemImageView2)
-                            val itemImage3: ImageView = view.findViewById(R.id.itemImageView3)
-                            val itemImage4: ImageView = view.findViewById(R.id.itemImageView4)
-                            val itemImage5: ImageView = view.findViewById(R.id.itemImageView5)
-                            val itemImage6: ImageView = view.findViewById(R.id.itemImageView6)
-
-
-                            Picasso.get()
-                                .load("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${playerDataMap["championId"]}.png")
-                                .into(object : com.squareup.picasso.Target {
-
-                                    override fun onBitmapLoaded(
-                                        bitmap: Bitmap?,
-                                        from: Picasso.LoadedFrom?
-                                    ) {
-                                        val drawImage: Drawable = BitmapDrawable(resources, bitmap)
-                                        matchItem.setCompoundDrawablesWithIntrinsicBounds(
-                                            drawImage,
-                                            null,
-                                            null,
-                                            null
-                                        )
-                                    }
-
-                                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-
-                                    override fun onBitmapFailed(
-                                        e: Exception?,
-                                        errorDrawable: Drawable?
-                                    ) {
-                                    }
-                                })
-                            if (playerResult) {
-                                //playerResult = "WIN"
-                                matchItem.setBackgroundColor(Color.parseColor("#446cff"))
-                                cardView.setCardBackgroundColor(Color.parseColor("#446cff"))
-                            } else {
-                                //playerResult = "LOST"
-                                matchItem.setBackgroundColor(Color.parseColor("#ff8385"))
-                                cardView.setCardBackgroundColor(Color.parseColor("#ff8385"))
-                            }
-                            matchItem.text = "$summonerName played ${playerDataMap["championName"]} " +
-                                    "${playerDataMap["kills"]}/${playerDataMap["deaths"]}/${playerDataMap["assists"]}"
+                            loadChampionPlayedAvatar(playerDataMap, matchItem)
+                            setCardColorBasedOnResult(playerResult, matchItem, cardView)
+                            setMatchItemTextInformation(matchItem, summonerName, playerDataMap)
+                            setPlayerBoughtItems(playerDataMap, itemImage0, itemImage1, itemImage2, itemImage3, itemImage4, itemImage5, itemImage6)
 
                             goldEarned.text = "Gold Earned: ${playerDataMap["goldEarned"]}"
                             physicalDamageDealtToChampions.text = "Physical Damage to Champions: ${playerDataMap["physicalDamageDealtToChampions"]}"
                             magicalDamageDealtToChampions.text = "Magical Damage to Champions: ${playerDataMap["magicDamageDealtToChampions"]}"
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item0"]}.png").into(itemImage0)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item1"]}.png").into(itemImage1)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item2"]}.png").into(itemImage2)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item3"]}.png").into(itemImage3)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item4"]}.png").into(itemImage4)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item5"]}.png").into(itemImage5)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item6"]}.png").into(itemImage6)
                             cardView.setOnClickListener(getOnClick(cardView, hiddenView))
                             linearLayout.addView(view)
                         }
@@ -134,6 +99,7 @@ class MatchHistoryFragment : Fragment() {
                 }
             }
         }
+
         return layout
     }
 
@@ -153,30 +119,30 @@ class MatchHistoryFragment : Fragment() {
                     AutoTransition()
                 )
                 hiddenView.visibility = View.GONE
-                // arrow.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
 
             // If the CardView is not expanded, set its visibility
             // to visible and change the expand more icon to expand less.
-            else {
-
+            else
+            {
                 TransitionManager.beginDelayedTransition(
                     cardView,
                     AutoTransition()
                 )
                 hiddenView.visibility = View.VISIBLE
-                // arrow.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         }
     }
 
-    private fun getMatchHistory(apiKey: String, puuid: String): JSONArray {
+    private fun getMatchHistory(apiKey: String, puuid: String): JSONArray
+    {
         val matchIds = getMatchIds(apiKey, puuid)
 
         return JSONArray(matchIds)
     }
 
-    private fun getMatchIds(apiKey: String, puuid: String): String {
+    private fun getMatchIds(apiKey: String, puuid: String): String
+    {
         return URL("https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
     }
 
@@ -185,7 +151,7 @@ class MatchHistoryFragment : Fragment() {
         return URL("https://europe.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
     }
 
-    private fun getPlayerDataFromMatch(player: JSONObject): HashMap<String, Any?>
+    private fun getPlayerDataFromMatchToHashMap(player: JSONObject): HashMap<String, Any?>
     {
         val playerDataMap = HashMap<String, Any?>()
 
@@ -194,7 +160,7 @@ class MatchHistoryFragment : Fragment() {
         playerDataMap["kills"] = player.get("kills")
         playerDataMap["deaths"] = player.get("deaths")
         playerDataMap["assists"] = player.get("assists")
-        playerDataMap["playerWin"] = player.get("win")
+        playerDataMap["win"] = player.get("win")
         playerDataMap["goldEarned"] = player.get("goldEarned")
         playerDataMap["magicDamageDealtToChampions"] = player.get("magicDamageDealtToChampions")
         playerDataMap["physicalDamageDealtToChampions"] = player.get("physicalDamageDealtToChampions")
@@ -207,5 +173,64 @@ class MatchHistoryFragment : Fragment() {
         playerDataMap["item6"] = player.get("item6")
 
         return playerDataMap
+    }
+
+    private fun loadChampionPlayedAvatar(playerDataMap: HashMap<String, Any?>, matchItem: TextView)
+    {
+        Picasso.get()
+            .load("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${playerDataMap["championId"]}.png")
+            .into(object : com.squareup.picasso.Target
+            {
+
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?)
+                {
+                    //val drawImage: Drawable = BitmapDrawable(resources, bitmap)
+                    val drawImage: Drawable = BitmapDrawable(resources, bitmap)
+                    matchItem.setCompoundDrawablesWithIntrinsicBounds(
+                        drawImage,
+                        null,
+                        null,
+                        null
+                    )
+                }
+
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+            })
+    }
+
+    private fun setCardColorBasedOnResult(playerResult: Boolean, matchItem: TextView, cardView: CardView)
+    {
+        if (playerResult) {
+
+            matchItem.setBackgroundColor(Color.parseColor("#446cff"))
+            cardView.setCardBackgroundColor(Color.parseColor("#446cff"))
+        }
+        else
+        {
+            matchItem.setBackgroundColor(Color.parseColor("#ff8385"))
+            cardView.setCardBackgroundColor(Color.parseColor("#ff8385"))
+        }
+    }
+
+    private fun setMatchItemTextInformation(matchItem: TextView, summonerName: String, playerDataMap: HashMap<String, Any?>)
+    {
+        matchItem.text = getString(R.string.playerMatchItem, summonerName, playerDataMap["championName"],
+            playerDataMap["kills"], playerDataMap["deaths"], playerDataMap["assists"])
+    }
+
+    private fun setPlayerBoughtItems(playerDataMap: HashMap<String, Any?>, itemImage0: ImageView,
+                                     itemImage1: ImageView, itemImage2: ImageView, itemImage3: ImageView,
+                                     itemImage4: ImageView, itemImage5: ImageView, itemImage6: ImageView)
+    {
+        val imageArray = arrayOf(itemImage0, itemImage1, itemImage2, itemImage3, itemImage4, itemImage5, itemImage6)
+
+        for (i in imageArray.indices)
+        {
+            if (playerDataMap["item$i"] == 0) { continue }
+
+            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item$i"]}.png").into(imageArray[i])
+        }
     }
 }

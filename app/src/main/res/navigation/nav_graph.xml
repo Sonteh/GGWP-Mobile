@@ -33,7 +33,11 @@
         android:id="@+id/matchHistoryFragment"
         android:name="com.example.ggwp_mobile.MatchHistoryFragment"
         android:label="fragment_match_history_screen"
-        tools:layout="@layout/fragment_match_history_screen" />
+        tools:layout="@layout/fragment_match_history_screen" >
+        <action
+            android:id="@+id/action_matchHistoryFragment_to_SearchScreenFragment"
+            app:destination="@id/SearchScreenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chartScreenFragment"
         android:name="com.example.ggwp_mobile.BarMasteryChartScreenFragment"
