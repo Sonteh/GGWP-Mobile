@@ -10,6 +10,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search_screen.*
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +59,6 @@ class SearchScreenFragment : Fragment() {
         buttonGoToPatchNotes.setOnClickListener { view->
             view.findNavController().navigate(R.id.action_SearchScreenFragment_to_patchNotesScreenFragment)
         }
-
         return layout
     }
 
