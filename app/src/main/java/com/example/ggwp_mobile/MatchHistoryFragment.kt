@@ -29,23 +29,6 @@ import java.net.URL
 class MatchHistoryFragment : Fragment() {
 
     private val viewModel: SummonerDataViewModel by activityViewModels()
-    private lateinit var championName: String
-    private var championId: Int = 0
-    private var kills: Int = 0
-    private var deaths: Int = 0
-    private var assists: Int = 0
-    private var playerWin: Boolean = false
-    private lateinit var playerResult: String
-    private var goldEarned: Int = 0
-    private var magicDamageDealtToChampions: Int = 0
-    private var physicalDamageDealtToChampions: Int = 0
-    private var item0: Int = 0
-    private var item1: Int = 0
-    private var item2: Int = 0
-    private var item3: Int = 0
-    private var item4: Int = 0
-    private var item5: Int = 0
-    private var item6: Int = 0
 
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onCreateView(
@@ -76,7 +59,8 @@ class MatchHistoryFragment : Fragment() {
                     val summonerName = participant.get("summonerName")
 
                     if (summonerName == summonerName2) {
-                        getPlayerDataFromMatch(participant)
+                        val playerDataMap = getPlayerDataFromMatch(participant)
+                        val playerResult = participant.get("win").toString().toBoolean()
 
                         withContext(Main) {
                             val view: View = layoutInflater.inflate(R.layout.match_child, null)
@@ -84,9 +68,9 @@ class MatchHistoryFragment : Fragment() {
                             val cardView: CardView = view.findViewById(R.id.base_cardview)
                             val hiddenView: View = view.findViewById(R.id.hidden_view)
 
-                            val testString: TextView = view.findViewById(R.id.test_string)
-                            val testString2: TextView = view.findViewById(R.id.test_string2)
-                            val testString3: TextView = view.findViewById(R.id.test_string3)
+                            val goldEarned: TextView = view.findViewById(R.id.goldEarned)
+                            val physicalDamageDealtToChampions: TextView = view.findViewById(R.id.physicalDamageDealtToChampions)
+                            val magicalDamageDealtToChampions: TextView = view.findViewById(R.id.magicalDamageDealtToChampions)
                             val itemImage0: ImageView = view.findViewById(R.id.itemImageView0)
                             val itemImage1: ImageView = view.findViewById(R.id.itemImageView1)
                             val itemImage2: ImageView = view.findViewById(R.id.itemImageView2)
@@ -97,7 +81,7 @@ class MatchHistoryFragment : Fragment() {
 
 
                             Picasso.get()
-                                .load("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/$championId.png")
+                                .load("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${playerDataMap["championId"]}.png")
                                 .into(object : com.squareup.picasso.Target {
 
                                     override fun onBitmapLoaded(
@@ -121,26 +105,28 @@ class MatchHistoryFragment : Fragment() {
                                     ) {
                                     }
                                 })
-                            if (playerWin) {
-                                playerResult = "WIN"
+                            if (playerResult) {
+                                //playerResult = "WIN"
                                 matchItem.setBackgroundColor(Color.parseColor("#446cff"))
                                 cardView.setCardBackgroundColor(Color.parseColor("#446cff"))
                             } else {
-                                playerResult = "LOST"
+                                //playerResult = "LOST"
                                 matchItem.setBackgroundColor(Color.parseColor("#ff8385"))
                                 cardView.setCardBackgroundColor(Color.parseColor("#ff8385"))
                             }
-                            matchItem.text = "$summonerName played $championName $kills/$deaths/$assists \n $playerResult"
-                            testString.text = "Gold Earned: $goldEarned"
-                            testString2.text = "Physical Damage to Champions: $physicalDamageDealtToChampions"
-                            testString3.text = "Magical Damage to Champions: $magicDamageDealtToChampions"
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item0.png").into(itemImage0)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item1.png").into(itemImage1)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item2.png").into(itemImage2)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item3.png").into(itemImage3)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item4.png").into(itemImage4)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item5.png").into(itemImage5)
-                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/$item6.png").into(itemImage6)
+                            matchItem.text = "$summonerName played ${playerDataMap["championName"]} " +
+                                    "${playerDataMap["kills"]}/${playerDataMap["deaths"]}/${playerDataMap["assists"]}"
+
+                            goldEarned.text = "Gold Earned: ${playerDataMap["goldEarned"]}"
+                            physicalDamageDealtToChampions.text = "Physical Damage to Champions: ${playerDataMap["physicalDamageDealtToChampions"]}"
+                            magicalDamageDealtToChampions.text = "Magical Damage to Champions: ${playerDataMap["magicDamageDealtToChampions"]}"
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item0"]}.png").into(itemImage0)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item1"]}.png").into(itemImage1)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item2"]}.png").into(itemImage2)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item3"]}.png").into(itemImage3)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item4"]}.png").into(itemImage4)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item5"]}.png").into(itemImage5)
+                            Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.13.1/img/item/${playerDataMap["item6"]}.png").into(itemImage6)
                             cardView.setOnClickListener(getOnClick(cardView, hiddenView))
                             linearLayout.addView(view)
                         }
@@ -199,24 +185,27 @@ class MatchHistoryFragment : Fragment() {
         return URL("https://europe.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
     }
 
-    private fun getPlayerDataFromMatch(player: JSONObject)
+    private fun getPlayerDataFromMatch(player: JSONObject): HashMap<String, Any?>
     {
-        championName = player.get("championName") as String
-        championId = player.get("championId") as Int
-        kills = player.get("kills") as Int
-        deaths = player.get("deaths") as Int
-        assists = player.get("assists") as Int
-        playerWin = player.get("win").toString().toBoolean()
-        playerResult = ""
-        goldEarned = player.get("goldEarned") as Int
-        magicDamageDealtToChampions = player.get("magicDamageDealtToChampions") as Int
-        physicalDamageDealtToChampions = player.get("physicalDamageDealtToChampions") as Int
-        item0 = player.get("item0") as Int
-        item1 = player.get("item1") as Int
-        item2 = player.get("item2") as Int
-        item3 = player.get("item3") as Int
-        item4 = player.get("item4") as Int
-        item5 = player.get("item5") as Int
-        item6 = player.get("item6") as Int
+        val playerDataMap = HashMap<String, Any?>()
+
+        playerDataMap["championName"] = player.get("championName")
+        playerDataMap["championId"] = player.get("championId")
+        playerDataMap["kills"] = player.get("kills")
+        playerDataMap["deaths"] = player.get("deaths")
+        playerDataMap["assists"] = player.get("assists")
+        playerDataMap["playerWin"] = player.get("win")
+        playerDataMap["goldEarned"] = player.get("goldEarned")
+        playerDataMap["magicDamageDealtToChampions"] = player.get("magicDamageDealtToChampions")
+        playerDataMap["physicalDamageDealtToChampions"] = player.get("physicalDamageDealtToChampions")
+        playerDataMap["item0"] = player.get("item0")
+        playerDataMap["item1"] = player.get("item1")
+        playerDataMap["item2"] = player.get("item2")
+        playerDataMap["item3"] = player.get("item3")
+        playerDataMap["item4"] = player.get("item4")
+        playerDataMap["item5"] = player.get("item5")
+        playerDataMap["item6"] = player.get("item6")
+
+        return playerDataMap
     }
 }
