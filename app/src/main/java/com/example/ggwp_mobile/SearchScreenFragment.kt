@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.FileNotFoundException
 import java.net.URL
 import java.util.*
 
@@ -90,12 +91,19 @@ class SearchScreenFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double){
+    private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double,
+                               flexRank: String, flexTier: String, flexLeaguePoints: String, flexWins: Int, flexLosses: Int, flexWinRate: Double){
         rankView.text = "$rank $tier"
         lpView.text = "Lp: $lp"
         winsView.text = "Ranked W:\n$wins"
         lossesView.text = "Ranked L:\n$losses"
         winRateView.text = "Winrate: $winRate%"
+
+        flexRankView.text = "$flexRank $flexTier"
+        flexLpView.text = "Lp: $flexLeaguePoints"
+        flexWinsView.text = "Ranked W:\n$flexWins"
+        flexLossesView.text = "Ranked L:\n$flexLosses"
+        flexWinRateView.text = "Winrate: $flexWinRate%"
     }
 
     //this function sets UI profileIconView
@@ -122,7 +130,7 @@ class SearchScreenFragment : Fragment() {
         }
     }
 
-    private suspend fun fakeSummoner(summonerName: String, apiKey: String): String{
+    private suspend fun fakeSummoner(summonerName: String, apiKey: String): Unit{
         val summonerInfo = getSummoner(summonerName, apiKey)
 
         //this parse string to json format
@@ -140,19 +148,52 @@ class SearchScreenFragment : Fragment() {
 
         val leagueEntries = getLeagueEntries(summonerId, apiKey)
         val leagueEntriesJson = JSONArray(leagueEntries)
-        val leagueEntriesJsonObject = leagueEntriesJson.getJSONObject(0)
+        var leagueEntriesJsonObject = leagueEntriesJson.getJSONObject(0)
         val tier = leagueEntriesJsonObject.getString("tier")
         setTextOnMainThread(summonerInfo, masteryScore, summonerIcon, summonerLvl, tier)
 
-        val rank = leagueEntriesJsonObject.getString("rank")
-        val leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
-        val wins = leagueEntriesJsonObject.getString("wins").toInt()
-        val losses = leagueEntriesJsonObject.getString("losses").toInt()
-        var winRate = wins.toDouble()/(wins.toDouble() + losses.toDouble())
+        var rank = leagueEntriesJsonObject.getString("rank")
+        var leaguePoints = leagueEntriesJsonObject.getString("leaguePoints")
+        var wins = leagueEntriesJsonObject.getString("wins").toInt()
+        var losses = leagueEntriesJsonObject.getString("losses").toInt()
+        var winRate = wins.toDouble() / (wins.toDouble() + losses.toDouble())
         winRate = Math.round(winRate * 1000.0) / 10.0
-        setRankedStats(tier, rank, leaguePoints, wins, losses, winRate)
 
-        return summonerId //testing here, THIS DOES NOTHING FOR NOW
+
+        var flexRank = "Unranked"
+        var flexTier = "0"
+        var flexLeaguePoints = "0"
+        var flexWins = 0
+        var flexLosses = 0
+        var flexWinRate = 0.00
+
+
+        for (i in 0 until leagueEntriesJson.length()){
+            val test = leagueEntriesJson.getJSONObject(i)
+            println(test)
+            if (test.getString("queueType") == "RANKED_SOLO_5x5") {
+                rank = test.getString("rank")
+                leaguePoints = test.getString("leaguePoints")
+                wins = test.getString("wins").toInt()
+                losses = test.getString("losses").toInt()
+                winRate = wins.toDouble() / (wins.toDouble() + losses.toDouble())
+                winRate = Math.round(winRate * 1000.0) / 10.0
+            }
+            if (test.getString("queueType") == "RANKED_FLEX_SR") {
+                flexRank = test.getString("rank")
+                flexTier = test.getString("tier")
+                flexLeaguePoints = test.getString("leaguePoints")
+                flexWins = test.getString("wins").toInt()
+                flexLosses = test.getString("losses").toInt()
+                flexWinRate = flexWins.toDouble()/(flexWins.toDouble() + flexLosses.toDouble())
+                flexWinRate = Math.round(flexWinRate * 1000.0) / 10.0
+            }
+        }
+
+
+        setRankedStats(tier, rank, leaguePoints, wins, losses, winRate, flexRank, flexTier, flexLeaguePoints, flexWins, flexLosses, flexWinRate)
+
+        //return summonerId //testing here, THIS DOES NOTHING FOR NOW
     }
 
     //gets summoner ids by summoner name (api request: summoner by name)
