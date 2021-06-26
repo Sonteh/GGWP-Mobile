@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.webkit.WebSettings
-import android.webkit.WebView
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_search_screen.*
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +43,27 @@ class SearchScreenFragment : Fragment() {
         CoroutineScope(IO).launch {
             fakeSummoner(summoner, key)
         }
+
+        val soloQ = layout.findViewById<Button>(R.id.soloQButton)
+        val flexQ = layout.findViewById<Button>(R.id.flexQButton)
+
+        val soloQLayout = layout.findViewById<ConstraintLayout>(R.id.soloQLayout)
+        val flexQLayout = layout.findViewById<ConstraintLayout>(R.id.flexQLayout)
+        soloQ.setOnClickListener{
+            soloQLayout.visibility = GONE
+            flexQLayout.visibility = VISIBLE
+            soloQ.visibility = GONE
+            flexQ.visibility = VISIBLE
+        }
+        flexQLayout.visibility = GONE
+        flexQ.visibility = GONE
+        flexQ.setOnClickListener{
+            flexQLayout.visibility = GONE
+            soloQLayout.visibility = VISIBLE
+            flexQ.visibility = GONE
+            soloQ.visibility = VISIBLE
+        }
+
         return layout
     }
 
