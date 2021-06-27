@@ -61,7 +61,9 @@ class StartScreenFragment : Fragment() {
         return layout
     }
 
-    //gets summoner ids by summoner name (api request: summoner by name)
+    /*
+    gets summoner ids by summoner name (api request: summoner by name)
+    */
     private suspend fun getSummonerBasicInformation(apiKey: String, enteredSummonerName: String, summonerRegionCode: String)
     {
         val json: String
@@ -93,6 +95,9 @@ class StartScreenFragment : Fragment() {
         viewModel.updateSummonerRegionCode(summonerRegionCode)
     }
 
+    /*
+    Creates dropdown list with user picker for region
+     */
     private fun createRegionSpinner(layout: View, regionSpinner: Spinner)
     {
         ArrayAdapter.createFromResource(

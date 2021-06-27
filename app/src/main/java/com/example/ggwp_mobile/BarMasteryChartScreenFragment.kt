@@ -77,6 +77,9 @@ class BarMasteryChartScreenFragment: Fragment() {
         return layout
     }
 
+    /*
+    Returns map with champion mastery points
+     */
     private fun fakeStats(input: String, input2: String): Map<String, Int>{
         val stats = getChampionMastery(input, input2)
 
@@ -94,11 +97,17 @@ class BarMasteryChartScreenFragment: Fragment() {
         return myMap.entries.sortedBy { it.value }.associate { it.toPair() }
     }
 
+    /*
+    Returns champion mastery from api
+     */
     private fun getChampionMastery(summonerId: String, apiKey: String): String
     {
         return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
+    /*
+    Returns champion names from api based on id
+     */
     private fun getChampionName(id: Int): String{
         val name = URL("https://api.hiray.me/lol/pbe/default/ids.json").readText()
 

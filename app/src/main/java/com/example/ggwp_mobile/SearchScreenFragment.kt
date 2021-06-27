@@ -65,23 +65,32 @@ class SearchScreenFragment : Fragment() {
         return layout
     }
 
-    //this function sets UI totalMasteryView
+    /*
+    this function sets UI totalMasteryView
+     */
     @SuppressLint("SetTextI18n")
     private fun setMasteryLvl(masteryLvl: String){
         totalMasteryView.text = masteryLvl
     }
 
-    //this function sets UI nickView
+    /*
+    this function sets UI nickView
+     */
     private fun setNickname(summonerName: String){
         nickView.text = summonerName
     }
 
-    //this function sets UI accountLvlView
+    /*
+    this function sets UI accountLvlView
+     */
     @SuppressLint("SetTextI18n")
     private fun setAccountLvl(lvl: String){
         accountLvlView.text = "Level: $lvl"
     }
 
+    /*
+    Sets ranked stats for soloq and flexq
+     */
     @SuppressLint("SetTextI18n")
     private fun setRankedStats(rank: String, tier: String, lp: String, wins: Int, losses: Int, winRate: Double,
                                flexRank: String, flexTier: String, flexLeaguePoints: String, flexWins: Int, flexLosses: Int, flexWinRate: Double){
@@ -115,7 +124,9 @@ class SearchScreenFragment : Fragment() {
         println("https://raw.githubusercontent.com/LightshieldDotDev/Chime-frontend/master/src/assets/emblems/"+rank2+"_Emblem.png")
     }
 
-    //calls set functions with parameters
+    /*
+    calls set functions with parameters
+     */
     private suspend fun setTextOnMainThread(masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String, flexRank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
@@ -126,6 +137,9 @@ class SearchScreenFragment : Fragment() {
         }
     }
 
+    /*
+    Creates searched summoner profile
+     */
     private suspend fun fakeSummoner(apiKey: String, summonerRegionCode: String)
     {
         val summonerId = viewModel.returnSummonerId()

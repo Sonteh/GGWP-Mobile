@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
+    Makes a transition by replacing nav_host_fragment with fragment
+     */
     private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.nav_host_fragment, fragment)

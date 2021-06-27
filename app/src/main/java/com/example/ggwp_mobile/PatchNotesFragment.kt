@@ -26,6 +26,9 @@ class PatchNotesFragment: Fragment() {
         return layout
     }
 
+    /*
+    Loads URL into webview
+     */
     @SuppressLint("SetJavaScriptEnabled")
     private fun webViewSetup(myWebView: WebView) {
         myWebView.apply {

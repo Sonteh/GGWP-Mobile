@@ -120,6 +120,9 @@ class MatchHistoryFragment : Fragment()
         return layout
     }
 
+    /*
+    Returns listener witch expands or hides card view on click
+     */
     private fun getOnClick(cardView: CardView, hiddenView: View): View.OnClickListener
     {
         return View.OnClickListener {
@@ -143,6 +146,9 @@ class MatchHistoryFragment : Fragment()
         }
     }
 
+    /*
+    Returns searched summoner match history
+     */
     private fun getMatchHistory(apiKey: String, puuid: String, summonerRegion: String): JSONArray
     {
         val matchIds = getMatchIds(apiKey, puuid, summonerRegion)
@@ -155,6 +161,9 @@ class MatchHistoryFragment : Fragment()
         return JSONArray(matchIds)
     }
 
+    /*
+    Returns searched summoner match ids
+     */
     private fun getMatchIds(apiKey: String, puuid: String, summonerRegion: String): String
     {
         val json: String
@@ -167,6 +176,9 @@ class MatchHistoryFragment : Fragment()
         }
     }
 
+    /*
+    Returns details about the match
+     */
     private fun getMatchDetails(apiKey: String, matchId: String, summonerRegion: String): String
     {
         val json: String
@@ -179,6 +191,9 @@ class MatchHistoryFragment : Fragment()
         }
     }
 
+    /*
+    Returns hashmap with useful information taken from match details
+     */
     private fun getPlayerDataFromMatchToHashMap(player: JSONObject): HashMap<String, Any?>
     {
         val playerDataMap = HashMap<String, Any?>()
@@ -203,6 +218,9 @@ class MatchHistoryFragment : Fragment()
         return playerDataMap
     }
 
+    /*
+    Load champion played avatar and sets it next to text
+     */
     private fun loadChampionPlayedAvatar(playerDataMap: HashMap<String, Any?>, matchItem: TextView)
     {
         Picasso.get()
@@ -235,6 +253,9 @@ class MatchHistoryFragment : Fragment()
             })
     }
 
+    /*
+    Sets color card based if player won
+     */
     private fun setCardColorBasedOnResult(playerResult: Boolean, matchItem: TextView, cardView: CardView)
     {
         if (playerResult) {
@@ -249,6 +270,9 @@ class MatchHistoryFragment : Fragment()
         }
     }
 
+    /*
+    Sets text on match item
+     */
     private fun setMatchItemTextInformation(matchItem: TextView, summonerName: String, playerDataMap: HashMap<String, Any?>)
     {
         try {
@@ -261,6 +285,9 @@ class MatchHistoryFragment : Fragment()
 
     }
 
+    /*
+    Sets icons for player bought items
+     */
     private fun setPlayerBoughtItems(playerDataMap: HashMap<String, Any?>, itemImage0: ImageView,
                                      itemImage1: ImageView, itemImage2: ImageView, itemImage3: ImageView,
                                      itemImage4: ImageView, itemImage5: ImageView, itemImage6: ImageView)
