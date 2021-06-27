@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">GGWP-Mobile</string>
-    <string name="starting_screen">Hello from Starting Screen</string>
-    <string name="searching_screen">Hello from Searching Screen</string>
     <string name="start">START</string>
     <string name="summonerName">Summoner name</string>
     <string name="eune">EUNE</string>

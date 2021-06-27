@@ -19,8 +19,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
-import org.json.JSONObject
-import java.io.FileNotFoundException
 import java.net.URL
 import java.util.*
 
@@ -36,10 +34,7 @@ class SearchScreenFragment : Fragment() {
         val layout = inflater.inflate(R.layout.fragment_search_screen, container, false)
 
         val key = viewModel.returnKey()
-
-        val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
         val summonerRegionCode = viewModel.returnSummonerRegionCode()
-        println(summoner)
 
         //Start IO (input/output) coroutine for network operations
         CoroutineScope(IO).launch {
@@ -104,7 +99,6 @@ class SearchScreenFragment : Fragment() {
 
     //this function sets UI profileIconView
     private fun setNewImage(iconId: String, soloRank: String, flexRank: String){
-        logThread("setNewImage")
         //using library Picasso: https://github.com/square/picasso
         //for some reason it can be used on Main thread
         Picasso.get().load("https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon$iconId.png").into(profileIconView)
@@ -195,7 +189,7 @@ class SearchScreenFragment : Fragment() {
 
     //function to log current thread where operation is taking place
     //can be deleted later
-    private fun logThread(methodName: String) {
-        println("Thread debug: ${methodName}: ${Thread.currentThread().name}")
+    private fun logThread() {
+        println("Thread debug: ${Thread.currentThread().name}")
     }
 }

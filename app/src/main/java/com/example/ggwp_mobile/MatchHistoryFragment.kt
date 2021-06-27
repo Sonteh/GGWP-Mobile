@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -14,10 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.compose.ui.text.toLowerCase
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +23,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.FileNotFoundException
+import java.lang.IllegalStateException
 import java.net.URL
 import java.util.*
 import kotlin.collections.HashMap
@@ -56,6 +55,12 @@ class MatchHistoryFragment : Fragment()
             for (i in 0 until matchHistory.length())
             {
                 val matchDetails = getMatchDetails(apiKey, matchHistory.getString(i), summonerRegion)
+
+                if (matchDetails == "")
+                {
+                    return@launch
+                }
+
                 val json = JSONObject(matchDetails)
                 val gameInfo = json.getJSONObject("info")
 
@@ -71,7 +76,14 @@ class MatchHistoryFragment : Fragment()
                         val playerDataMap = getPlayerDataFromMatchToHashMap(participant)
                         val playerResult = participant.get("win").toString().toBoolean()
 
-                        val view: View = layoutInflater.inflate(R.layout.match_child, null)
+                        val view: View
+
+                        try {
+                            view = layoutInflater.inflate(R.layout.match_child, null)
+                        } catch (e: IllegalStateException)
+                        {
+                            return@launch
+                        }
 
                         val matchItem: TextView = view.findViewById(R.id.match_item)
                         val cardView: CardView = view.findViewById(R.id.base_cardview)
@@ -143,17 +155,36 @@ class MatchHistoryFragment : Fragment()
     {
         val matchIds = getMatchIds(apiKey, puuid, summonerRegion)
 
+        if (matchIds == "")
+        {
+            return JSONArray()
+        }
+
         return JSONArray(matchIds)
     }
 
     private fun getMatchIds(apiKey: String, puuid: String, summonerRegion: String): String
     {
-        return URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
+        val json: String
+
+        return try {
+            json = URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
+            json
+        } catch (e: FileNotFoundException) {
+            ""
+        }
     }
 
     private fun getMatchDetails(apiKey: String, matchId: String, summonerRegion: String): String
     {
-        return URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
+        val json: String
+
+        return try {
+            json = URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
+            json
+        } catch (e: FileNotFoundException) {
+            ""
+        }
     }
 
     private fun getPlayerDataFromMatchToHashMap(player: JSONObject): HashMap<String, Any?>
@@ -189,8 +220,15 @@ class MatchHistoryFragment : Fragment()
 
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?)
                 {
-                    //val drawImage: Drawable = BitmapDrawable(resources, bitmap)
-                    val drawImage: Drawable = BitmapDrawable(resources, bitmap)
+
+                    val drawImage: Drawable
+
+                    try {
+                        drawImage = BitmapDrawable(resources, bitmap)
+                    } catch (e: IllegalStateException)
+                    {
+                        return
+                    }
                     matchItem.setCompoundDrawablesWithIntrinsicBounds(
                         drawImage,
                         null,
@@ -221,8 +259,14 @@ class MatchHistoryFragment : Fragment()
 
     private fun setMatchItemTextInformation(matchItem: TextView, summonerName: String, playerDataMap: HashMap<String, Any?>)
     {
-        matchItem.text = getString(R.string.playerMatchItem, summonerName, playerDataMap["championName"],
-            playerDataMap["kills"], playerDataMap["deaths"], playerDataMap["assists"])
+        try {
+            matchItem.text = getString(R.string.playerMatchItem, summonerName, playerDataMap["championName"],
+                playerDataMap["kills"], playerDataMap["deaths"], playerDataMap["assists"])
+        }catch (e: IllegalStateException)
+        {
+            return
+        }
+
     }
 
     private fun setPlayerBoughtItems(playerDataMap: HashMap<String, Any?>, itemImage0: ImageView,

@@ -3,17 +3,11 @@ package com.example.ggwp_mobile
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_start_screen.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,10 +38,13 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
         val floating: FloatingActionButton = findViewById(R.id.fab)
+
         floating.setOnClickListener {
-            makeCurrentFragment(search)
+            makeCurrentFragment(mainStats)
             lej.visibility = View.GONE
+            makeCurrentFragment(search)
         }
     }
 
