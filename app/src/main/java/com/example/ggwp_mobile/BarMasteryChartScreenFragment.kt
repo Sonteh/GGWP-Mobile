@@ -32,8 +32,6 @@ class BarMasteryChartScreenFragment: Fragment() {
         val key = viewModel.returnKey()
         val summonerId = viewModel.returnSummonerId()
 
-
-
         CoroutineScope(IO).launch {
             val statsMap = fakeStats(summonerId, key)
             withContext(Main){
