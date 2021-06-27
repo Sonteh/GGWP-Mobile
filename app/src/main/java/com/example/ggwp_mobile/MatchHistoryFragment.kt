@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.compose.ui.text.toLowerCase
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,6 +27,8 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class MatchHistoryFragment : Fragment()
@@ -40,17 +44,18 @@ class MatchHistoryFragment : Fragment()
         val layout = inflater.inflate(R.layout.fragment_match_history_screen, container, false)
 
         val puuid = viewModel.returnpuuId()
-        val key = viewModel.returnKey()
+        val apiKey = viewModel.returnKey()
         val summonerName = viewModel.returnSummonerName()
+        val summonerRegion = viewModel.returnSummonerRegion()
 
         val linearLayout: LinearLayout = layout.findViewById(R.id.layout_main)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val matchHistory = getMatchHistory(key, puuid)
+            val matchHistory = getMatchHistory(apiKey, puuid, summonerRegion)
 
             for (i in 0 until matchHistory.length())
             {
-                val matchDetails = getMatchDetails(key, matchHistory.getString(i))
+                val matchDetails = getMatchDetails(apiKey, matchHistory.getString(i), summonerRegion)
                 val json = JSONObject(matchDetails)
                 val gameInfo = json.getJSONObject("info")
 
@@ -134,21 +139,21 @@ class MatchHistoryFragment : Fragment()
         }
     }
 
-    private fun getMatchHistory(apiKey: String, puuid: String): JSONArray
+    private fun getMatchHistory(apiKey: String, puuid: String, summonerRegion: String): JSONArray
     {
-        val matchIds = getMatchIds(apiKey, puuid)
+        val matchIds = getMatchIds(apiKey, puuid, summonerRegion)
 
         return JSONArray(matchIds)
     }
 
-    private fun getMatchIds(apiKey: String, puuid: String): String
+    private fun getMatchIds(apiKey: String, puuid: String, summonerRegion: String): String
     {
-        return URL("https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
+        return URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/by-puuid/$puuid/ids?start=0&count=20&api_key=$apiKey").readText()
     }
 
-    private fun getMatchDetails(apiKey: String, matchId: String): String
+    private fun getMatchDetails(apiKey: String, matchId: String, summonerRegion: String): String
     {
-        return URL("https://europe.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
+        return URL("https://${summonerRegion.toLowerCase(Locale.ROOT)}.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=$apiKey").readText()
     }
 
     private fun getPlayerDataFromMatchToHashMap(player: JSONObject): HashMap<String, Any?>
