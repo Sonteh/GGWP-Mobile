@@ -107,7 +107,9 @@ class SearchScreenFragment : Fragment() {
         flexWinRateView.text = "Winrate: $flexWinRate%"
     }
 
-    //this function sets UI profileIconView
+    /*
+    This function sets UI profileIconView
+     */
     private fun setNewImage(iconId: String, soloRank: String, flexRank: String){
         //using library Picasso: https://github.com/square/picasso
         //for some reason it can be used on Main thread
@@ -192,18 +194,24 @@ class SearchScreenFragment : Fragment() {
         setRankedStats(tier, rank, leaguePoints, wins, losses, winRate, flexRank, flexTier, flexLeaguePoints, flexWins, flexLosses, flexWinRate)
     }
 
-    //gets global mastery score by summonerId (api request: mastery by summonerId)
+    /*
+    Gets global mastery score by summonerId (api request: mastery by summonerId)
+     */
     private fun getMasteryScore(summonerId: String, apiKey: String, summonerRegionCode: String): String {
         return URL("https://$summonerRegionCode.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
-    //gets league entries by summonerId (api request: league entries by summoner Id)
+    /*
+    Gets league entries by summonerId (api request: league entries by summoner Id)
+     */
     private fun getLeagueEntries(summonerId: String, apiKey: String, summonerRegionCode: String): String {
         return URL("https://$summonerRegionCode.api.riotgames.com/lol/league/v4/entries/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
-    //function to log current thread where operation is taking place
-    //can be deleted later
+    /*
+    function to log current thread where operation is taking place
+    can be deleted later
+     */
     private fun logThread() {
         println("Thread debug: ${Thread.currentThread().name}")
     }
