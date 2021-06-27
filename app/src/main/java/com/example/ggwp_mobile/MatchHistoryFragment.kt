@@ -123,23 +123,15 @@ class MatchHistoryFragment : Fragment()
     private fun getOnClick(cardView: CardView, hiddenView: View): View.OnClickListener
     {
         return View.OnClickListener {
-            // If the CardView is already expanded, set its visibility
-            //  to gone and change the expand less icon to expand more.
-            if (hiddenView.visibility == View.VISIBLE) {
 
-                // The transition of the hiddenView is carried out
-                //  by the TransitionManager class.
-                // Here we use an object of the AutoTransition
-                // Class to create a default transition.
+            if (hiddenView.visibility == View.VISIBLE)
+            {
                 TransitionManager.beginDelayedTransition(
                     cardView,
                     AutoTransition()
                 )
                 hiddenView.visibility = View.GONE
             }
-
-            // If the CardView is not expanded, set its visibility
-            // to visible and change the expand more icon to expand less.
             else
             {
                 TransitionManager.beginDelayedTransition(

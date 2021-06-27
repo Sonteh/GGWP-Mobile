@@ -152,23 +152,23 @@ class SearchScreenFragment : Fragment() {
         var flexWinRate = 0.00
 
         for (i in 0 until leagueEntriesJson.length()){
-            val test = leagueEntriesJson.getJSONObject(i)
-            println(test)
-            if (test.getString("queueType") == "RANKED_SOLO_5x5") {
-                rank = test.getString("rank")
-                tier = test.getString("tier")
-                leaguePoints = test.getString("leaguePoints")
-                wins = test.getString("wins").toInt()
-                losses = test.getString("losses").toInt()
+            val leagueInfo = leagueEntriesJson.getJSONObject(i)
+
+            if (leagueInfo.getString("queueType") == "RANKED_SOLO_5x5") {
+                rank = leagueInfo.getString("rank")
+                tier = leagueInfo.getString("tier")
+                leaguePoints = leagueInfo.getString("leaguePoints")
+                wins = leagueInfo.getString("wins").toInt()
+                losses = leagueInfo.getString("losses").toInt()
                 winRate = wins.toDouble() / (wins.toDouble() + losses.toDouble())
                 winRate = (winRate * 1000.0).roundToInt() / 10.0
             }
-            if (test.getString("queueType") == "RANKED_FLEX_SR") {
-                flexRank = test.getString("rank")
-                flexTier = test.getString("tier")
-                flexLeaguePoints = test.getString("leaguePoints")
-                flexWins = test.getString("wins").toInt()
-                flexLosses = test.getString("losses").toInt()
+            if (leagueInfo.getString("queueType") == "RANKED_FLEX_SR") {
+                flexRank = leagueInfo.getString("rank")
+                flexTier = leagueInfo.getString("tier")
+                flexLeaguePoints = leagueInfo.getString("leaguePoints")
+                flexWins = leagueInfo.getString("wins").toInt()
+                flexLosses = leagueInfo.getString("losses").toInt()
                 flexWinRate = flexWins.toDouble()/(flexWins.toDouble() + flexLosses.toDouble())
                 flexWinRate = (flexWinRate * 1000.0).roundToInt() / 10.0
             }
