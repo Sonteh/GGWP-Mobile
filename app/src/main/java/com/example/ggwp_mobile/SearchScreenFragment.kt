@@ -38,11 +38,12 @@ class SearchScreenFragment : Fragment() {
         val key = viewModel.returnKey()
 
         val summoner = viewModel.returnSummonerName() //editTextTextPersonName!!.text.toString() Moved it to starting screen
+        val summonerRegionCode = viewModel.returnSummonerRegionCode()
         println(summoner)
 
         //Start IO (input/output) coroutine for network operations
         CoroutineScope(IO).launch {
-            fakeSummoner(key)
+            fakeSummoner(key, summonerRegionCode)
         }
 
         val soloQ = layout.findViewById<Button>(R.id.soloQButton)
@@ -130,15 +131,15 @@ class SearchScreenFragment : Fragment() {
         }
     }
 
-    private suspend fun fakeSummoner(apiKey: String)
+    private suspend fun fakeSummoner(apiKey: String, summonerRegionCode: String)
     {
         val summonerId = viewModel.returnSummonerId()
         val summonerIcon = viewModel.returnSummonerIcon()
         val summonerLvl = viewModel.returnSummonerLevel()
 
-        val masteryScore = getMasteryScore(summonerId, apiKey)
+        val masteryScore = getMasteryScore(summonerId, apiKey, summonerRegionCode)
 
-        val leagueEntries = getLeagueEntries(summonerId, apiKey)
+        val leagueEntries = getLeagueEntries(summonerId, apiKey, summonerRegionCode)
         val leagueEntriesJson = JSONArray(leagueEntries)
 
         var tier = "0"
@@ -183,13 +184,13 @@ class SearchScreenFragment : Fragment() {
     }
 
     //gets global mastery score by summonerId (api request: mastery by summonerId)
-    private fun getMasteryScore(summonerId: String, apiKey: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$summonerId?api_key=$apiKey").readText()
+    private fun getMasteryScore(summonerId: String, apiKey: String, summonerRegionCode: String): String {
+        return URL("https://$summonerRegionCode.api.riotgames.com/lol/champion-mastery/v4/scores/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
     //gets league entries by summonerId (api request: league entries by summoner Id)
-    private fun getLeagueEntries(summonerId: String, apiKey: String): String {
-        return URL("https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/$summonerId?api_key=$apiKey").readText()
+    private fun getLeagueEntries(summonerId: String, apiKey: String, summonerRegionCode: String): String {
+        return URL("https://$summonerRegionCode.api.riotgames.com/lol/league/v4/entries/by-summoner/$summonerId?api_key=$apiKey").readText()
     }
 
     //function to log current thread where operation is taking place

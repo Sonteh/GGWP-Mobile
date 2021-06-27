@@ -5,55 +5,100 @@ import androidx.lifecycle.ViewModel
 class SummonerDataViewModel : ViewModel() {
 
     //place for changing api key
-    private val key: String = "RGAPI-9ba0cb31-08cf-41dd-89b6-d7da1ded4061"
+    private val key: String = "RGAPI-62fc213c-9a4f-4175-a969-a713c6702844"
 
     private var puuId: String = ""
     private var summonerName: String = ""
     private var summonerId: String = ""
     private var summonerLevel: String = ""
     private var summonerIcon: String = ""
+    private var summonerRegionCode: String = ""
+    private var summonerRegion: String = ""
 
-    fun updatepuuId(input: String) {
+    fun updatepuuId(input: String)
+    {
         puuId = input
     }
 
-    fun returnpuuId(): String {
+    fun returnpuuId(): String
+    {
         return puuId
     }
 
-    fun updateSummonerID(input: String) {
+    fun updateSummonerID(input: String)
+    {
         summonerId = input
     }
 
-    fun returnSummonerId(): String {
+    fun returnSummonerId(): String
+    {
         return summonerId
     }
 
-    fun updateSummonerName(input: String) {
+    fun updateSummonerName(input: String)
+    {
         summonerName = input
     }
 
-    fun returnSummonerName(): String {
+    fun returnSummonerName(): String
+    {
         return summonerName
     }
 
-    fun returnKey(): String {
+    fun returnKey(): String
+    {
         return key
     }
 
-    fun updateSummonerLevel(input: String) {
+    fun updateSummonerLevel(input: String)
+    {
         summonerLevel = input
     }
 
-    fun returnSummonerLevel(): String {
+    fun returnSummonerLevel(): String
+    {
         return summonerLevel
     }
 
-    fun updateSummonerIcon(input: String) {
+    fun updateSummonerIcon(input: String)
+    {
         summonerIcon = input
     }
 
-    fun returnSummonerIcon(): String {
+    fun returnSummonerIcon(): String
+    {
         return summonerIcon
+    }
+
+    fun updateSummonerRegionCode(input: String)
+    {
+        summonerRegionCode = input
+
+        if (summonerRegionCode == "EUN1" || summonerRegionCode == "EUW1" || summonerRegionCode == "RU" ||
+                summonerRegionCode == "TR")
+        {
+            summonerRegion = "EUROPE"
+        }
+
+        if (summonerRegionCode == "LA1" || summonerRegionCode == "LA2" || summonerRegionCode == "NA1" ||
+            summonerRegionCode == "OC1")
+        {
+            summonerRegion = "AMERICAS"
+        }
+
+        if (summonerRegionCode == "JP1" || summonerRegionCode == "KR")
+        {
+            summonerRegion = "ASIA"
+        }
+    }
+
+    fun returnSummonerRegionCode(): String
+    {
+        return summonerRegionCode
+    }
+
+    fun returnSummonerRegion(): String
+    {
+        return summonerRegion
     }
 }

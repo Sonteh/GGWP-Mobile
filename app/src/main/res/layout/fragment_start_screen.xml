@@ -18,22 +18,33 @@
             android:id="@+id/buttonStart"
             android:layout_width="210dp"
             android:layout_height="74dp"
-            android:text="@string/search"
             android:backgroundTint="@color/white"
+            android:text="@string/search"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Spinner
+            android:id="@+id/region_spinner"
+            android:layout_width="109dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.379" />
+
         <TextView
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:letterSpacing="0.1"
-            android:textSize="60sp"
             android:fontFamily="@font/ka1"
+            android:letterSpacing="0.1"
             android:text="@string/logo"
+            android:textSize="60sp"
             app:layout_constraintBottom_toTopOf="@+id/buttonStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +60,7 @@
             android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/buttonStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintHorizontal_bias="0.323"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
