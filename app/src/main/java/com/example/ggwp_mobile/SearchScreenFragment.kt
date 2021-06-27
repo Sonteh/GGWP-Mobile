@@ -118,7 +118,7 @@ class SearchScreenFragment : Fragment() {
     private suspend fun setTextOnMainThread(masteryScore: String, summonerIcon: String, summonerLvl: String, rank: String, flexRank: String){ //suspend marks this function as something that can be asynchronous
         //start Main coroutine for operations on UI
         withContext(Main){
-            setMasteryLvl("Mastery score: $masteryScore")
+            setMasteryLvl("Mastery: $masteryScore")
             setNewImage(summonerIcon, rank, flexRank)
             setNickname(viewModel.returnSummonerName())
             setAccountLvl(summonerLvl)

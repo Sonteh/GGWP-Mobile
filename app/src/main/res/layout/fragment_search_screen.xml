@@ -28,7 +28,7 @@
                 android:id="@+id/profileIconView"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="36dp"
                 android:contentDescription="TODO"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,14 +36,26 @@
                 tools:src="@tools:sample/avatars" />
 
             <TextView
+                android:id="@+id/accountLvlView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="88dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profileIconView" />
+
+            <TextView
                 android:id="@+id/totalMasteryView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="36dp"
                 android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/profileIconView"
-                app:layout_constraintTop_toBottomOf="@+id/accountLvlView" />
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profileIconView" />
 
             <TextView
                 android:id="@+id/nickView"
@@ -52,22 +64,13 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="36dp"
                 android:text="TextView"
-                android:textSize="22dp"
+                android:textSize="26sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.367"
                 app:layout_constraintStart_toEndOf="@+id/profileIconView"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/accountLvlView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="TextView"
-                android:textSize="20dp"
-                app:layout_constraintStart_toEndOf="@+id/profileIconView"
-                app:layout_constraintTop_toBottomOf="@+id/nickView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

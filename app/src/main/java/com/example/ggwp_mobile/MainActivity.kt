@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val patchNotes = PatchNotesFragment()
         val matchHistory = MatchHistoryFragment()
 
-        
+
         val lej = findViewById<CoordinatorLayout>(R.id.navbarLayout)
         lej.visibility = View.GONE
         bottomNavigationView.setOnNavigationItemSelectedListener {
