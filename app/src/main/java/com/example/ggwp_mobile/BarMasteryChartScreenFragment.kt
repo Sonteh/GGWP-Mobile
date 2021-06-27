@@ -8,15 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.charts.HorizontalBarChart
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_bar_mastery_chart_screen.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URL
 
 class BarMasteryChartScreenFragment: Fragment() {
@@ -34,16 +39,21 @@ class BarMasteryChartScreenFragment: Fragment() {
 
         CoroutineScope(IO).launch {
             val statsMap = fakeStats(summonerId, key)
+//            for ((key, value) in statsMap){
+//
+//            }
             withContext(Main){
                 statsMap.get(64)
                 val barChart = layout.findViewById<HorizontalBarChart>(R.id.horizontalChart)
                 val visitiors: MutableList<BarEntry> = ArrayList()
-                var i = 1
+                var i = 0
+                val xLabel: ArrayList<String> = ArrayList()
                 for ((key, value) in statsMap){
                     visitiors.add(BarEntry(i.toFloat(), value.toFloat()))
+                    xLabel.add("$key");
                     i++
                 }
-                visitiors.add(BarEntry(16f, 0f))
+                visitiors.add(BarEntry(0f, 0f))
 //                visitiors.add(BarEntry(1f, 16263695f))
 //                visitiors.add(BarEntry(2f, 3180810f))
 //                visitiors.add(BarEntry(3f, 2751632f))
@@ -57,14 +67,24 @@ class BarMasteryChartScreenFragment: Fragment() {
 //                visitiors.add(PieEntry(920f, "Greece"))
 //                visitiors.add(PieEntry(732f, "Russia"))
 
+                val xAxis: XAxis = barChart.xAxis
+                xAxis.position = XAxis.XAxisPosition.BOTTOM
+                xAxis.setDrawGridLines(false)
+                xAxis.granularity = 1f
+                xAxis.valueFormatter = object: ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return xLabel[value.toInt()]
+                    }
+                }
+
                 val barDataSet = BarDataSet(visitiors, "Champions by mastery points")
-                barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+                barDataSet.setColors(*ColorTemplate.VORDIPLOM_COLORS)
                 barDataSet.valueTextColor = Color.BLACK
                 barDataSet.valueTextSize = 8f
 
                 val barData = BarData(barDataSet)
 
-                barChart.setFitBars(true)
+                barChart.setFitBars(false)
                 barChart.data = barData
                 barChart.description.text = "Mastery points"
                 barChart.animateY(2000)
@@ -124,5 +144,13 @@ class BarMasteryChartScreenFragment: Fragment() {
     private fun getChampionMastery(summonerId: String, apiKey: String): String
     {
         return URL("https://eun1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$summonerId?api_key=$apiKey").readText()
+    }
+
+    private fun getChampionName(id: Int): String{
+        val name = URL("https://api.hiray.me/lol/pbe/default/ids.json").readText()
+
+        val nameJSON = JSONObject(name)
+
+        return nameJSON.getString("$id")
     }
 }
