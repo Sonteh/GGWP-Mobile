@@ -21,7 +21,6 @@ class ChartsScreenFragment: Fragment() {
         val barChartButton = layout.findViewById<Button>(R.id.barChartButton)
 
         barChartButton.setOnClickListener { view ->
-            //view.findNavController().navigate(R.id.action_chartsScreenFragment_to_chartScreenFragment)
             view.findNavController().navigate(R.id.chartScreenFragment)
         }
 

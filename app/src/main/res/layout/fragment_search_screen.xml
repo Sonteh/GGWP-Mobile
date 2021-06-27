@@ -71,10 +71,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/soloQLayout"
             android:layout_width="379dp"
             android:layout_height="343dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/stats_background_1"
             android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,9 +111,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textSize="20sp"
-                android:textColor="@android:color/holo_blue_bright"
                 android:text="TextView"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,8 +126,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="56dp"
                 android:gravity="center"
-                android:textColor="@android:color/holo_red_light"
                 android:text="TextView"
+                android:textColor="@android:color/holo_red_light"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -139,8 +139,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="56dp"
                 android:gravity="center"
-                android:textColor="@android:color/holo_green_light"
                 android:text="TextView"
+                android:textColor="@android:color/holo_green_light"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -156,6 +156,121 @@
                 app:layout_constraintEnd_toStartOf="@+id/lossesView"
                 app:layout_constraintHorizontal_bias="0.486"
                 app:layout_constraintStart_toEndOf="@+id/winsView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/soloQButton"
+            android:layout_width="181dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/teal_200"
+            android:elevation="8dp"
+            android:text="SOLOQ"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <Button
+            android:id="@+id/flexQButton"
+            android:layout_width="181dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/teal_200"
+            android:elevation="8dp"
+            android:text="FLEXQ"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/flexQLayout"
+            android:layout_width="379dp"
+            android:layout_height="343dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/stats_background_1"
+            android:elevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <ImageView
+                android:id="@+id/flexRankImageView"
+                android:layout_width="156dp"
+                android:layout_height="156dp"
+                android:layout_marginTop="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/flexRankView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/flexRankImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.761" />
+
+            <TextView
+                android:id="@+id/flexLpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="TextView"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flexRankImageView" />
+
+            <TextView
+                android:id="@+id/flexLossesView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="56dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/flexWinsView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="56dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="@android:color/holo_green_light"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/flexWinRateView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="TextView"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/flexLossesView"
+                app:layout_constraintHorizontal_bias="0.486"
+                app:layout_constraintStart_toEndOf="@+id/flexWinsView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

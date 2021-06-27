@@ -25,25 +25,13 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.getItem(2).isEnabled = false
 
 
-//        val search: BottomNavigationItemView = findViewById(R.id.miHome)
-//
-//        search.setOnClickListener { view ->
-//            view.findNavController().navigate(R.id.SearchScreenFragment)
-//        }
         val search = StartScreenFragment()
         val mainStats = SearchScreenFragment()
         val charts = ChartsScreenFragment()
         val patchNotes = PatchNotesFragment()
         val matchHistory = MatchHistoryFragment()
 
-        //makeCurrentFragment(search)
-
-//        if (search.isVisible){
-//            bottomNavigationView.visibility = View.GONE
-//        }
-//        else {
-//            bottomNavigationView.visibility = View.VISIBLE
-//        }
+        
         val lej = findViewById<CoordinatorLayout>(R.id.navbarLayout)
         lej.visibility = View.GONE
         bottomNavigationView.setOnNavigationItemSelectedListener {
