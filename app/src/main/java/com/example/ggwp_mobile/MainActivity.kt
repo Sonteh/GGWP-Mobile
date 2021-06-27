@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         lej.visibility = View.GONE
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                //R.id.fab -> makeCurrentFragment(search)
                 R.id.miHome -> makeCurrentFragment(mainStats)
                 R.id.miCos2 -> makeCurrentFragment(patchNotes)
                 R.id.miSearch -> makeCurrentFragment(matchHistory)

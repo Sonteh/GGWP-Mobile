@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.net.URL
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class SearchScreenFragment : Fragment() {
@@ -160,7 +161,7 @@ class SearchScreenFragment : Fragment() {
                 wins = test.getString("wins").toInt()
                 losses = test.getString("losses").toInt()
                 winRate = wins.toDouble() / (wins.toDouble() + losses.toDouble())
-                winRate = Math.round(winRate * 1000.0) / 10.0
+                winRate = (winRate * 1000.0).roundToInt() / 10.0
             }
             if (test.getString("queueType") == "RANKED_FLEX_SR") {
                 flexRank = test.getString("rank")
@@ -169,7 +170,7 @@ class SearchScreenFragment : Fragment() {
                 flexWins = test.getString("wins").toInt()
                 flexLosses = test.getString("losses").toInt()
                 flexWinRate = flexWins.toDouble()/(flexWins.toDouble() + flexLosses.toDouble())
-                flexWinRate = Math.round(flexWinRate * 1000.0) / 10.0
+                flexWinRate = (flexWinRate * 1000.0).roundToInt() / 10.0
             }
         }
 

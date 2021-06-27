@@ -13,6 +13,10 @@
     <string name="item">Item</string>
     <string name="playerMatchItem">%s played %s %s/%s/%s</string>
     <string name="level">Level: </string>
+    <string name="rankIcon">Rank Icon</string>
+    <string name="profileIcon">Profile Icon</string>
+    <string name="soloq">SOLOQ</string>
+    <string name="flexq">FLEXQ</string>
     <string-array name="regions_array">
         <item>BR1</item>
         <item>EUN1</item>

@@ -61,7 +61,8 @@
             app:layout_constraintBottom_toTopOf="@+id/buttonStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.323"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="Summoner Name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
