@@ -33,23 +33,22 @@ class BarMasteryChartScreenFragment: Fragment() {
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_bar_mastery_chart_screen, container, false)
 
-        val key = viewModel.returnKey()
+        val apiKey = viewModel.returnKey()
         val summonerId = viewModel.returnSummonerId()
 
         CoroutineScope(IO).launch {
-            val statsMap = fakeStats(summonerId, key)
+            val statsMap = fakeStats(summonerId, apiKey)
             withContext(Main){
-                statsMap.get(64)
                 val barChart = layout.findViewById<HorizontalBarChart>(R.id.horizontalChart)
-                val visitiors: MutableList<BarEntry> = ArrayList()
+                val championMastery: MutableList<BarEntry> = ArrayList()
                 var i = 0
                 val xLabel: ArrayList<String> = ArrayList()
                 for ((key, value) in statsMap){
-                    visitiors.add(BarEntry(i.toFloat(), value.toFloat()))
-                    xLabel.add("$key");
+                    championMastery.add(BarEntry(i.toFloat(), value.toFloat()))
+                    xLabel.add(key)
                     i++
                 }
-                visitiors.add(BarEntry(0f, 0f))
+                championMastery.add(BarEntry(0f, 0f))
 
                 val xAxis: XAxis = barChart.xAxis
                 xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -61,7 +60,7 @@ class BarMasteryChartScreenFragment: Fragment() {
                     }
                 }
 
-                val barDataSet = BarDataSet(visitiors, "Champions by mastery points")
+                val barDataSet = BarDataSet(championMastery, "Champions by mastery points")
                 barDataSet.setColors(*ColorTemplate.VORDIPLOM_COLORS)
                 barDataSet.valueTextColor = Color.BLACK
                 barDataSet.valueTextSize = 8f
@@ -83,14 +82,14 @@ class BarMasteryChartScreenFragment: Fragment() {
 
         val statsJson = JSONArray(stats)
 
-        var myMap = HashMap<String, Int>()
+        val myMap = HashMap<String, Int>()
         for (j in 0..15){
             val statsToIterate = statsJson.getJSONObject(j)
             println(statsToIterate.getString("championPoints"))
-            var keyId = statsToIterate.getString("championId").toInt()
-            var key = getChampionName(keyId)
+            val keyId = statsToIterate.getString("championId").toInt()
+            val key = getChampionName(keyId)
             val value = statsToIterate.getString("championPoints").toInt()
-            myMap.put(key, value)
+            myMap[key] = value
         }
         return myMap.entries.sortedBy { it.value }.associate { it.toPair() }
     }

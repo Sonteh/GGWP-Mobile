@@ -136,8 +136,8 @@ class SearchScreenFragment : Fragment() {
         val leagueEntries = getLeagueEntries(summonerId, apiKey, summonerRegionCode)
         val leagueEntriesJson = JSONArray(leagueEntries)
 
-        var tier = "0"
-        var rank = "Unranked"
+        var rank = "0"
+        var tier = "Unranked"
         var leaguePoints = "0"
         var wins = 0
         var losses = 0
